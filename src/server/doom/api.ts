@@ -1,9 +1,9 @@
 import { GlideDateTime, GlideRecord, gs } from '@servicenow/glide'
 import { ServiceError } from '@servicenow/glide/sn_ws_err'
 import type { RESTAPIRequest, RESTAPIResponse } from '@servicenow/glide/sn_ws_int'
-import { evaluateAchievements, listAchievements } from './achievements'
-import { doomguyEnabled, ensurePlayer, int, prefName, toProfile } from './players'
-import { SKILLS, scoreLevel, validateLevels } from './scoring'
+import { evaluateAchievements, listAchievements } from './achievements.ts'
+import { doomguyEnabled, doomguyMode, ensurePlayer, int, modePrefName, prefName, toProfile } from './players.ts'
+import { SKILLS, scoreLevel, validateLevels } from './scoring.ts'
 
 type Json = Record<string, unknown>
 
@@ -13,7 +13,8 @@ function fail(response: RESTAPIResponse, status: number, message: string): void 
 
 function ok(response: RESTAPIResponse, result: unknown, status = 200): void {
     response.setStatus(status)
-    response.setBody({ result })
+    // The platform wraps whatever is set here in { result: ... } itself.
+    response.setBody(result as object)
 }
 
 /** Parses the JSON body ourselves: the platform's pre-parsed `body.data` does not always yield real arrays. */
@@ -35,13 +36,13 @@ function guarded(request: RESTAPIRequest, response: RESTAPIResponse, handler: ()
     try {
         handler()
     } catch (error) {
-        gs.error(`[x_doom] ${request.uri} failed: ${error}`)
+        gs.error(`[x_417611_doom] ${request.uri} failed: ${error}`)
         fail(response, 500, 'The Doom service hit an unexpected error.')
     }
 }
 
-const minLevelSeconds = (): number => parseInt(gs.getProperty('x_doom.min_level_seconds', '8'), 10) || 0
-const rejectSuspect = (): boolean => gs.getProperty('x_doom.reject_suspect_runs', 'true') === 'true'
+const minLevelSeconds = (): number => parseInt(gs.getProperty('x_417611_doom.min_level_seconds', '8'), 10) || 0
+const rejectSuspect = (): boolean => gs.getProperty('x_417611_doom.reject_suspect_runs', 'true') === 'true'
 
 // ---- profile ---------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ export function getMe(request: RESTAPIRequest, response: RESTAPIResponse): void 
 export function getLeaderboard(request: RESTAPIRequest, response: RESTAPIResponse): void {
     guarded(request, response, () => {
         const limit = Math.min(50, Math.max(1, parseInt(queryParam(request, 'limit') ?? '10', 10) || 10))
-        const board = new GlideRecord('x_doom_player')
+        const board = new GlideRecord('x_417611_doom_player')
         board.addQuery('best_score', '>', 0)
         board.orderByDesc('best_score')
         board.setLimit(limit)
@@ -93,7 +94,7 @@ export function startRun(request: RESTAPIRequest, response: RESTAPIResponse): vo
         const player = ensurePlayer(gs.getUserID())
 
         // A player has at most one run in progress; anything left over was abandoned (closed tab, crash).
-        const stale = new GlideRecord('x_doom_run')
+        const stale = new GlideRecord('x_417611_doom_run')
         stale.addQuery('player', player.getUniqueValue())
         stale.addQuery('state', 'playing')
         stale.query()
@@ -103,8 +104,9 @@ export function startRun(request: RESTAPIRequest, response: RESTAPIResponse): vo
             stale.update()
         }
 
-        const run = new GlideRecord('x_doom_run')
-        run.initialize()
+        const run = new GlideRecord('x_417611_doom_run')
+        // newRecord(), not initialize(): only newRecord() runs the number column's javascript: default.
+        run.newRecord()
         run.setValue('player', player.getUniqueValue())
         run.setValue('state', 'playing')
         run.setValue('episode', episode)
@@ -116,9 +118,9 @@ export function startRun(request: RESTAPIRequest, response: RESTAPIResponse): vo
 }
 
 function loadOwnRun(runId: string): GlideRecord | undefined {
-    const run = new GlideRecord('x_doom_run')
+    const run = new GlideRecord('x_417611_doom_run')
     if (!run.get(runId)) return undefined
-    const player = new GlideRecord('x_doom_player')
+    const player = new GlideRecord('x_417611_doom_player')
     if (!player.get(run.getValue('player')) || player.getValue('user') !== gs.getUserID()) return undefined
     return run
 }
@@ -149,7 +151,7 @@ export function finishRun(request: RESTAPIRequest, response: RESTAPIResponse): v
         for (const level of levels) {
             // Rejected runs keep their level rows for audit but score nothing.
             const levelScore = state === 'rejected' ? 0 : scoreLevel(level, skill).score
-            const row = new GlideRecord('x_doom_level_stat')
+            const row = new GlideRecord('x_417611_doom_level_stat')
             row.initialize()
             row.setValue('run', run.getUniqueValue())
             row.setValue('map', level.map)
@@ -182,15 +184,15 @@ export function finishRun(request: RESTAPIRequest, response: RESTAPIResponse): v
         // Player totals, rank and achievements are handled by the business rules on this update.
         run.update()
 
-        const player = new GlideRecord('x_doom_player')
+        const player = new GlideRecord('x_417611_doom_player')
         player.get(run.getValue('player'))
 
         const newAchievements: { code: string; name: string }[] = []
-        const awards = new GlideRecord('x_doom_player_achievement')
+        const awards = new GlideRecord('x_417611_doom_player_achievement')
         awards.addQuery('run', run.getUniqueValue())
         awards.query()
         while (awards.next()) {
-            const definition = new GlideRecord('x_doom_achievement')
+            const definition = new GlideRecord('x_417611_doom_achievement')
             if (definition.get(awards.getValue('achievement'))) {
                 newAchievements.push({ code: definition.getValue('code'), name: definition.getValue('name') })
             }
@@ -224,14 +226,16 @@ export function abandonRun(request: RESTAPIRequest, response: RESTAPIResponse): 
 // ---- doomguy ---------------------------------------------------------------------------------
 
 export function getDoomguy(request: RESTAPIRequest, response: RESTAPIResponse): void {
-    guarded(request, response, () => ok(response, { enabled: doomguyEnabled() }))
+    guarded(request, response, () => ok(response, { enabled: doomguyEnabled(), mode: doomguyMode() }))
 }
 
 export function putDoomguy(request: RESTAPIRequest, response: RESTAPIResponse): void {
     guarded(request, response, () => {
-        const enabled = parseBody(request)['enabled'] === true
-        gs.getUser().savePreference(prefName, enabled ? 'true' : 'false')
-        ok(response, { enabled })
+        const body = parseBody(request)
+        // Each field is optional so the on/off switch and the mode can be changed independently.
+        if (typeof body['enabled'] === 'boolean') gs.getUser().savePreference(prefName, body['enabled'] ? 'true' : 'false')
+        if (body['mode'] === 'auto' || body['mode'] === 'manual') gs.getUser().savePreference(modePrefName, body['mode'])
+        ok(response, { enabled: doomguyEnabled(), mode: doomguyMode() })
     })
 }
 

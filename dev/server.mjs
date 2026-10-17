@@ -1,9 +1,9 @@
 // Local stand-in for the instance, for developing and testing the browser side without one.
 //   npm run build && npm run dev        then open http://localhost:8080/
 //
-//  * serves the SDK's built UI assets at /uxasset/externals/x_doom/* and the two UI pages
+//  * serves the SDK's built UI assets at /uxasset/externals/x_417611_doom/* and the two UI pages
 //  * serves a fake "classic UI" shell (/nav_to.do) whose content frames include the global UI Script
-//  * answers /api/x_doom/doom/* with the REAL server handlers running on the in-memory Glide emulator
+//  * answers /api/x_417611_doom/doom/* with the REAL server handlers running on the in-memory Glide emulator
 // Pick a user with ?user=marine|isabella|mallory (remembered in a cookie).
 import http from 'node:http'
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
@@ -67,8 +67,8 @@ const shell = `<!doctype html><html><head><meta charset="utf-8"><title>Dev insta
 #banner{background:#1d2733;color:#fff;padding:8px 12px} iframe{flex:1;border:0}</style></head>
 <body><div id="banner">Dev instance &mdash; classic UI shell &nbsp;
 <a style="color:#9cf" href="/incident_list.do" target="gsft_main">Incidents</a> &nbsp;
-<a style="color:#9cf" href="/x_doom_play.do" target="gsft_main">Play Doom</a> &nbsp;
-<a style="color:#9cf" href="/x_doom_doomguy.do" target="gsft_main">Doomguy</a></div>
+<a style="color:#9cf" href="/x_417611_doom_play.do" target="gsft_main">Play Doom</a> &nbsp;
+<a style="color:#9cf" href="/x_417611_doom_doomguy.do" target="gsft_main">Doomguy</a></div>
 <iframe name="gsft_main" id="gsft_main" src="/incident_list.do"></iframe></body></html>`
 
 function userFrom(url, cookie = '') {
@@ -86,7 +86,7 @@ const server = http.createServer(async (req, res) => {
     const user = userFrom(url, req.headers.cookie)
     res.setHeader('Set-Cookie', `devuser=${user}; Path=/`)
 
-    if (url.pathname.startsWith('/api/x_doom/doom')) {
+    if (url.pathname.startsWith('/api/x_417611_doom/doom')) {
         const chunks = []
         for await (const chunk of req) chunks.push(chunk)
         const raw = Buffer.concat(chunks).toString('utf8')
@@ -102,8 +102,8 @@ const server = http.createServer(async (req, res) => {
         return res.end(JSON.stringify(reply.body ?? {}))
     }
 
-    if (url.pathname.startsWith('/uxasset/externals/x_doom/')) {
-        const file = join(staticDir, url.pathname.slice('/uxasset/externals/x_doom/'.length))
+    if (url.pathname.startsWith('/uxasset/externals/x_417611_doom/')) {
+        const file = join(staticDir, url.pathname.slice('/uxasset/externals/x_417611_doom/'.length))
         if (!file.startsWith(staticDir) || !existsSync(file)) return void res.writeHead(404).end('not found')
         res.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream' })
         return res.end(readFileSync(file))

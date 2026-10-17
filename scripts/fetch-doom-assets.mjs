@@ -11,7 +11,7 @@ import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -32,9 +32,10 @@ const pkgDir = join(vendor, 'package')
 function download() {
     rmSync(vendor, { recursive: true, force: true })
     mkdirSync(vendor, { recursive: true })
-    const out = execFileSync('npm', ['pack', PACKAGE, '--silent', '--pack-destination', vendor], { encoding: 'utf8' })
+    const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+    const out = execFileSync(npm, ['pack', PACKAGE, '--silent', '--pack-destination', vendor], { encoding: 'utf8', shell: process.platform === 'win32' })
     const tarball = join(vendor, out.trim().split('\n').pop())
-    execFileSync('tar', ['-xzf', tarball, '-C', vendor])
+    execFileSync('tar', ['-xzf', basename(tarball)], { cwd: vendor })
 }
 
 function verify() {

@@ -1,6 +1,6 @@
 import type { LevelStat } from './statdump'
 
-const BASE = '/api/x_doom/doom'
+const BASE = '/api/x_417611_doom/doom'
 
 export interface PlayerProfile {
     callsign: string
@@ -56,7 +56,23 @@ declare global {
     }
 }
 
-let tokenProvider: () => string | undefined = () => window.g_ck
+/** g_ck lives on the window that owns the session: this page, or (when hosted in a frame) a same-origin ancestor. */
+function findSessionToken(): string | undefined {
+    let win: Window = window
+    for (let depth = 0; depth < 6; depth++) {
+        try {
+            const token = (win as Window).g_ck
+            if (token) return token
+            if (win.parent === win) break
+            win = win.parent
+        } catch {
+            break // cross-origin ancestor
+        }
+    }
+    return undefined
+}
+
+let tokenProvider: () => string | undefined = findSessionToken
 
 /** Lets a caller that isn't the page owning the session (e.g. a top-window overlay) supply g_ck. */
 export function setTokenProvider(provider: () => string | undefined): void {
@@ -97,7 +113,9 @@ export const startRun = (episode: number, skill: number) =>
 export const finishRun = (runId: string, levels: LevelStat[], clientSeconds: number) =>
     call<FinishResult>('POST', `/runs/${runId}/finish`, { levels, clientSeconds })
 export const abandonRun = (runId: string) => call<void>('POST', `/runs/${runId}/abandon`, {}, true)
-export const getDoomguy = () => call<{ enabled: boolean }>('GET', '/doomguy')
+export type DoomguyMode = 'auto' | 'manual'
+export const getDoomguy = () => call<{ enabled: boolean; mode?: DoomguyMode }>('GET', '/doomguy')
 export const setDoomguy = (enabled: boolean) => call<{ enabled: boolean }>('PUT', '/doomguy', { enabled })
+export const setDoomguyMode = (mode: DoomguyMode) => call<{ mode: DoomguyMode }>('PUT', '/doomguy', { mode })
 export const sendDoomguyTelemetry = (steps: number, shots: number) =>
     call<void>('POST', '/doomguy/telemetry', { steps, shots }, true)

@@ -1,8 +1,8 @@
 import { Table, StringColumn, IntegerColumn, ReferenceColumn, DateTimeColumn } from '@servicenow/sdk/core'
 
 /** One row per ServiceNow user who has played; created on first contact with the Doom API. */
-export const x_doom_player = Table({
-    name: 'x_doom_player',
+export const x_417611_doom_player = Table({
+    name: 'x_417611_doom_player',
     label: 'Doom Player',
     display: 'callsign',
     allowWebServiceAccess: true,
@@ -24,5 +24,5 @@ export const x_doom_player = Table({
         doomguy_shots: IntegerColumn({ label: 'Doomguy shots', default: 0, readOnly: true }),
         last_played: DateTimeColumn({ label: 'Last played', readOnly: true }),
     },
-    index: [{ name: 'x_doom_player_user', unique: true, element: 'user' }],
+    index: [{ name: 'x_417611_doom_player_user', unique: true, element: 'user' }],
 })

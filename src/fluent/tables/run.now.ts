@@ -1,8 +1,8 @@
 import { Table, StringColumn, IntegerColumn, ChoiceColumn, ReferenceColumn, DateTimeColumn } from '@servicenow/sdk/core'
 
 /** A single attempt at the game, from "Start run" to the engine's exit. Mutated only by the Doom API. */
-export const x_doom_run = Table({
-    name: 'x_doom_run',
+export const x_417611_doom_run = Table({
+    name: 'x_417611_doom_run',
     label: 'Doom Run',
     display: 'number',
     allowWebServiceAccess: true,
@@ -11,12 +11,12 @@ export const x_doom_run = Table({
         number: StringColumn({
             label: 'Number',
             maxLength: 40,
-            default: 'javascript:getNextObjNumberPadded();',
+            default: 'javascript:global.getNextObjNumberPadded();',
             readOnly: true,
         }),
         player: ReferenceColumn({
             label: 'Player',
-            referenceTable: 'x_doom_player',
+            referenceTable: 'x_417611_doom_player',
             mandatory: true,
             cascadeRule: 'delete',
         }),

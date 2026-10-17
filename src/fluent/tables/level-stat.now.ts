@@ -1,13 +1,13 @@
 import { Table, StringColumn, IntegerColumn, ReferenceColumn } from '@servicenow/sdk/core'
 
 /** End-of-level statistics as reported by the engine's -statdump output, one row per level in a run. */
-export const x_doom_level_stat = Table({
-    name: 'x_doom_level_stat',
+export const x_417611_doom_level_stat = Table({
+    name: 'x_417611_doom_level_stat',
     label: 'Doom Level Stat',
     display: 'map',
     allowWebServiceAccess: true,
     schema: {
-        run: ReferenceColumn({ label: 'Run', referenceTable: 'x_doom_run', mandatory: true, cascadeRule: 'delete' }),
+        run: ReferenceColumn({ label: 'Run', referenceTable: 'x_417611_doom_run', mandatory: true, cascadeRule: 'delete' }),
         map: StringColumn({ label: 'Map', maxLength: 20, mandatory: true }),
         kills: IntegerColumn({ label: 'Kills', default: 0 }),
         kills_max: IntegerColumn({ label: 'Kills (max)', default: 0 }),

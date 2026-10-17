@@ -47,8 +47,8 @@ export class GlideDateTime {
 export const gs = {
     getUserID: () => context.userId,
     getProperty: (name, fallback) => (db.properties.has(name) ? String(db.properties.get(name)) : fallback),
-    getPreference: (name, fallback) => db.preferences.get(`${context.userId}:${name}`) ?? fallback,
     getUser: () => ({
+        getPreference: (name) => db.preferences.get(`${context.userId}:${name}`) ?? null,
         savePreference: (name, value) => db.preferences.set(`${context.userId}:${name}`, String(value)),
     }),
     addErrorMessage: (message) => db.messages.push(message),
@@ -79,13 +79,16 @@ function compare(actual, op, expected) {
     }
 }
 
-function applyDefaults(table, row) {
+// Static defaults apply on insert; `javascript:` defaults (auto-numbers) only when the script called newRecord().
+function applyDefaults(table, row, withScripted = false) {
     const def = db.schema.get(table)
     if (!def) return
     for (const [name, column] of Object.entries(def.schema)) {
         if (row[name] !== undefined && row[name] !== '') continue
         let value = column.default
-        if (typeof value === 'string' && value.startsWith('javascript:getNextObjNumberPadded')) {
+        if (typeof value === 'string' && value.startsWith('javascript:')) {
+            if (!withScripted) continue
+            if (!value.startsWith('javascript:global.getNextObjNumberPadded')) throw new Error(`mock GlideRecord: unsupported default ${value}`)
             const auto = def.autoNumber
             const next = (db.counters.get(table) ?? auto.number) + 1
             db.counters.set(table, next)
@@ -146,6 +149,10 @@ export class GlideRecord {
     initialize() {
         this._row = {}
         this._snapshot = {}
+    }
+    newRecord() {
+        this.initialize()
+        applyDefaults(this._table, this._row, true)
     }
     getValue(field) {
         const v = this._row?.[field]

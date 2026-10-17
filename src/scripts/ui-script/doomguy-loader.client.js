@@ -1,6 +1,6 @@
 // Global UI Script: runs in every classic UI frame. Its only job is to make sure the Doomguy
 // controller is loaded once into the TOP window (which survives content-frame navigation) and
-// to introduce this frame to it. All the real code lives in the x_doom/doomguy asset.
+// to introduce this frame to it. All the real code lives in the x_417611_doom/doomguy asset.
 (function () {
     var host;
     try {
@@ -23,6 +23,6 @@
 
     var script = host.document.createElement('script');
     script.type = 'module';
-    script.src = '/uxasset/externals/x_doom/doomguy.jsdbx';
+    script.src = '/uxasset/externals/x_417611_doom/doomguy.jsdbx';
     (host.document.head || host.document.documentElement).appendChild(script);
 })();

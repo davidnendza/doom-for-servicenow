@@ -1,9 +1,9 @@
 import { GlideDateTime, GlideRecord, gs } from '@servicenow/glide'
-import { evaluateAchievements } from './achievements'
-import { int } from './players'
-import { isPerfect, rankFor } from './scoring'
+import { evaluateAchievements } from './achievements.ts'
+import { int } from './players.ts'
+import { isPerfect, rankFor } from './scoring.ts'
 
-/** Before insert on x_doom_player: callsign defaults to the user's display name. */
+/** Before insert on x_417611_doom_player: callsign defaults to the user's display name. */
 export function defaultCallsign(current: GlideRecord): void {
     if (current.getValue('callsign')) return
     const user = new GlideRecord('sys_user')
@@ -11,12 +11,12 @@ export function defaultCallsign(current: GlideRecord): void {
     current.setValue('callsign', name || 'Unknown Marine')
 }
 
-/** Before insert/update on x_doom_player: the rank follows lifetime kills, whoever edits the row. */
+/** Before insert/update on x_417611_doom_player: the rank follows lifetime kills, whoever edits the row. */
 export function updateRank(current: GlideRecord): void {
     current.setValue('rank_title', rankFor(int(current, 'total_kills')))
 }
 
-/** Before update on x_doom_run: a run that has left "playing" can never go back to it. */
+/** Before update on x_417611_doom_run: a run that has left "playing" can never go back to it. */
 export function lockClosedRuns(current: GlideRecord, previous: GlideRecord): void {
     if (previous.getValue('state') !== 'playing') {
         gs.addErrorMessage('A closed Doom run cannot be reopened.')
@@ -25,16 +25,16 @@ export function lockClosedRuns(current: GlideRecord, previous: GlideRecord): voi
 }
 
 /**
- * After update on x_doom_run, when state changes to "completed": rolls the run into the player's
+ * After update on x_417611_doom_run, when state changes to "completed": rolls the run into the player's
  * lifetime totals (kills, best score, perfect levels, ...) and then grants any achievements earned.
  */
 export function completeRun(current: GlideRecord): void {
-    const player = new GlideRecord('x_doom_player')
+    const player = new GlideRecord('x_417611_doom_player')
     if (!player.get(current.getValue('player'))) return
 
     let perfect = 0
     let underPar = 0
-    const levels = new GlideRecord('x_doom_level_stat')
+    const levels = new GlideRecord('x_417611_doom_level_stat')
     levels.addQuery('run', current.getUniqueValue())
     levels.query()
     while (levels.next()) {

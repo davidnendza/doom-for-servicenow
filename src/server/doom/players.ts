@@ -1,17 +1,17 @@
 import { GlideRecord, gs } from '@servicenow/glide'
-import type { PlayerProfile } from './types'
+import type { PlayerProfile } from './types.ts'
 
 export const int = (record: GlideRecord, field: string): number => parseInt(record.getValue(field) || '0', 10) || 0
 
 /** Finds the caller's player row, creating it on first contact. The callsign is defaulted by a business rule. */
 export function ensurePlayer(userId: string): GlideRecord {
-    const existing = new GlideRecord('x_doom_player')
+    const existing = new GlideRecord('x_417611_doom_player')
     existing.addQuery('user', userId)
     existing.setLimit(1)
     existing.query()
     if (existing.next()) return existing
 
-    const created = new GlideRecord('x_doom_player')
+    const created = new GlideRecord('x_417611_doom_player')
     created.initialize()
     created.setValue('user', userId)
     created.insert()
@@ -35,9 +35,18 @@ export function toProfile(player: GlideRecord): PlayerProfile {
     }
 }
 
-export const prefName = 'x_doom.doomguy.enabled'
+export const prefName = 'x_417611_doom.doomguy.enabled'
 
 export function doomguyEnabled(): boolean {
-    const fallback = gs.getProperty('x_doom.doomguy.default_enabled', 'false')
-    return gs.getPreference(prefName, fallback) === 'true'
+    const fallback = gs.getProperty('x_417611_doom.doomguy.default_enabled', 'false')
+    // gs.getPreference is not allowed in scoped apps; the user object carries the same preference.
+    return (gs.getUser().getPreference(prefName) || fallback) === 'true'
+}
+
+export const modePrefName = 'x_417611_doom.doomguy.mode'
+export type DoomguyMode = 'auto' | 'manual'
+
+/** auto: he wanders, fights and blasts things on his own; manual: only your keyboard moves him. */
+export function doomguyMode(): DoomguyMode {
+    return gs.getUser().getPreference(modePrefName) === 'manual' ? 'manual' : 'auto'
 }

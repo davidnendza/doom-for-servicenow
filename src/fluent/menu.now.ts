@@ -18,7 +18,7 @@ Record({
         order: 100,
         title: 'Play Doom',
         link_type: 'DIRECT',
-        query: 'x_doom_play.do',
+        query: 'x_417611_doom_play.do',
         hint: 'Start a run',
     },
 })
@@ -32,7 +32,7 @@ Record({
         order: 200,
         title: 'Doomguy',
         link_type: 'DIRECT',
-        query: 'x_doom_doomguy.do',
+        query: 'x_417611_doom_doomguy.do',
         hint: 'Switch the roaming marine on or off (Ctrl+Alt+D)',
     },
 })
@@ -58,7 +58,7 @@ Record({
         order: 400,
         title: 'Leaderboard',
         link_type: 'FILTER',
-        name: 'x_doom_player',
+        name: 'x_417611_doom_player',
         filter: 'best_score>0^ORDERBYDESCbest_score',
     },
 })
@@ -72,7 +72,7 @@ Record({
         order: 500,
         title: 'My runs',
         link_type: 'FILTER',
-        name: 'x_doom_run',
+        name: 'x_417611_doom_run',
         filter: 'player.user=javascript:gs.getUserID()^ORDERBYDESCstarted_at',
     },
 })
@@ -86,7 +86,7 @@ Record({
         order: 600,
         title: 'All runs',
         link_type: 'LIST',
-        name: 'x_doom_run',
+        name: 'x_417611_doom_run',
     },
 })
 
@@ -99,7 +99,7 @@ Record({
         order: 700,
         title: 'Level stats',
         link_type: 'LIST',
-        name: 'x_doom_level_stat',
+        name: 'x_417611_doom_level_stat',
     },
 })
 
@@ -112,7 +112,7 @@ Record({
         order: 800,
         title: 'Players',
         link_type: 'LIST',
-        name: 'x_doom_player',
+        name: 'x_417611_doom_player',
     },
 })
 
@@ -125,7 +125,7 @@ Record({
         order: 900,
         title: 'Configuration',
         link_type: 'SEPARATOR',
-        roles: ['x_doom.admin'],
+        roles: ['x_417611_doom.admin'],
     },
 })
 
@@ -138,8 +138,8 @@ Record({
         order: 1000,
         title: 'Achievement definitions',
         link_type: 'LIST',
-        name: 'x_doom_achievement',
-        roles: ['x_doom.admin'],
+        name: 'x_417611_doom_achievement',
+        roles: ['x_417611_doom.admin'],
     },
 })
 
@@ -152,7 +152,7 @@ Record({
         order: 1100,
         title: 'Earned achievements',
         link_type: 'LIST',
-        name: 'x_doom_player_achievement',
-        roles: ['x_doom.admin'],
+        name: 'x_417611_doom_player_achievement',
+        roles: ['x_417611_doom.admin'],
     },
 })

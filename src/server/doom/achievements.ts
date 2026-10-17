@@ -1,6 +1,6 @@
 import { GlideDateTime, GlideRecord } from '@servicenow/glide'
-import { int } from './players'
-import type { AchievementView } from './types'
+import { int } from './players.ts'
+import type { AchievementView } from './types.ts'
 
 export interface RunContext {
     runId?: string
@@ -22,7 +22,7 @@ function metricValue(player: GlideRecord, context: RunContext, metric: string): 
 
 function earnedIds(playerId: string): Set<string> {
     const earned = new Set<string>()
-    const rows = new GlideRecord('x_doom_player_achievement')
+    const rows = new GlideRecord('x_417611_doom_player_achievement')
     rows.addQuery('player', playerId)
     rows.query()
     while (rows.next()) earned.add(rows.getValue('achievement'))
@@ -31,14 +31,14 @@ function earnedIds(playerId: string): Set<string> {
 
 /**
  * Grants every active achievement the player now qualifies for and returns the newly earned ones.
- * Definitions live in x_doom_achievement, so admins can add or tune them without a deploy.
+ * Definitions live in x_417611_doom_achievement, so admins can add or tune them without a deploy.
  */
 export function evaluateAchievements(player: GlideRecord, context: RunContext = {}): { code: string; name: string }[] {
     const playerId = player.getUniqueValue()
     const already = earnedIds(playerId)
     const granted: { code: string; name: string }[] = []
 
-    const definitions = new GlideRecord('x_doom_achievement')
+    const definitions = new GlideRecord('x_417611_doom_achievement')
     definitions.addQuery('active', true)
     definitions.orderBy('sort_order')
     definitions.query()
@@ -47,7 +47,7 @@ export function evaluateAchievements(player: GlideRecord, context: RunContext = 
         if (already.has(id)) continue
         if (metricValue(player, context, definitions.getValue('metric')) < int(definitions, 'threshold')) continue
 
-        const award = new GlideRecord('x_doom_player_achievement')
+        const award = new GlideRecord('x_417611_doom_player_achievement')
         award.initialize()
         award.setValue('player', playerId)
         award.setValue('achievement', id)
@@ -61,13 +61,13 @@ export function evaluateAchievements(player: GlideRecord, context: RunContext = 
 
 export function listAchievements(player: GlideRecord): AchievementView[] {
     const earned = new Map<string, string>()
-    const rows = new GlideRecord('x_doom_player_achievement')
+    const rows = new GlideRecord('x_417611_doom_player_achievement')
     rows.addQuery('player', player.getUniqueValue())
     rows.query()
     while (rows.next()) earned.set(rows.getValue('achievement'), rows.getValue('earned_at'))
 
     const views: AchievementView[] = []
-    const definitions = new GlideRecord('x_doom_achievement')
+    const definitions = new GlideRecord('x_417611_doom_achievement')
     definitions.addQuery('active', true)
     definitions.orderBy('sort_order')
     definitions.query()

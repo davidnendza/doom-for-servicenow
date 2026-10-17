@@ -5,11 +5,14 @@
 // that load register themselves through attachFrame() so their keystrokes reach the marine.
 // Sprites and sounds are decoded from the shareware WAD the first time the marine is switched on.
 import { gunzipB64 } from './lib/b64'
-import { getDoomguy, sendDoomguyTelemetry, setDoomguy, setTokenProvider } from './lib/api'
+import { getDoomguy, sendDoomguyTelemetry, setDoomguy, setDoomguyMode, setTokenProvider, type DoomguyMode } from './lib/api'
+import { Autopilot, type AutoTarget, type Intent, type Point } from './lib/autopilot'
+import { ElementTargets, rayBox, type ElementEntry } from './lib/elements'
+import { Monsters, SPECS, type Monster, type MonsterKind } from './lib/monsters'
 import { initSettingsPage } from './lib/settings-page'
 import { decodeSound, loadSpriteSet, Wad, type Sound, type Sprite } from './lib/wad'
 
-const ENTRY_URL = '/uxasset/externals/x_doom/doomguy.jsdbx'
+const ENTRY_URL = '/uxasset/externals/x_417611_doom/doomguy.jsdbx'
 
 const SCALE = 2
 const CELL = 96 // natural pixel size of the marine canvas
@@ -23,15 +26,20 @@ const FIRE_COOLDOWN_MS = 280
 const SHOT_RANGE = 520
 const STEP_PX = 40
 const TELEMETRY_MS = 20000
+const SCAN_MS = 600
+const FIRST_MONSTER_MS = 3500
+const GRAVITY = 900
 const DEATH_FRAMES = 'HIJKLMN'
 /** Screen sector (0 = right, then clockwise in 45 degree steps) to the sprite rotation facing that way. */
 const ROTATION_BY_SECTOR = [7, 8, 1, 2, 3, 4, 5, 6]
-const IGNORE_FRAMES = /x_doom_play\.do/
+const IGNORE_FRAMES = /x_417611_doom_play\.do/
 
 interface Assets {
     marine: Map<string, Sprite>
     puff: Map<string, Sprite>
     fog: Map<string, Sprite>
+    explosion: Map<string, Sprite>
+    monsters: Partial<Record<MonsterKind, Map<string, Sprite>>>
     sounds: Record<string, Sound>
 }
 
@@ -41,6 +49,22 @@ interface Effect {
     y: number
     start: number
     frameMs: number
+    scale?: number
+}
+
+/** A flying scrap of a blasted element: one of its letters, or a spark. */
+interface Particle {
+    x: number
+    y: number
+    vx: number
+    vy: number
+    born: number
+    life: number
+    rot: number
+    vr: number
+    text: string
+    color: string
+    size: number
 }
 
 interface Tracer {
@@ -53,11 +77,14 @@ interface Tracer {
 
 export interface DoomguyController {
     readonly enabled: boolean
+    readonly mode: DoomguyMode
     setEnabled(value: boolean): Promise<void>
     toggle(): Promise<boolean>
+    setMode(mode: DoomguyMode): void
+    toggleMode(): DoomguyMode
     attachFrame(win: Window): void
     onChange(listener: (enabled: boolean) => void): () => void
-    stats(): { steps: number; shots: number }
+    stats(): { steps: number; shots: number; kills: number; blasts: number }
 }
 
 type HostWindow = Window & {
@@ -67,7 +94,7 @@ type HostWindow = Window & {
     g_ck?: string
 }
 
-type Mode = 'hidden' | 'arriving' | 'alive' | 'dying'
+type Phase = 'hidden' | 'arriving' | 'alive' | 'dying'
 
 function resolveHost(): HostWindow {
     try {
@@ -116,6 +143,12 @@ async function loadAssets(): Promise<Assets> {
         teleport: 'DSTELEPT',
         death: 'DSPLDETH',
         oof: 'DSOOF',
+        explode: 'DSBAREXP',
+        pain: 'DSPOPAIN',
+        impSight: 'DSBGSIT1',
+        impDeath: 'DSBGDTH1',
+        zombieSight: 'DSPOSIT1',
+        zombieDeath: 'DSPODTH1',
     })) {
         const data = wad.get(lump)
         const sound = data && decodeSound(data)
@@ -125,6 +158,11 @@ async function loadAssets(): Promise<Assets> {
         marine: loadSpriteSet(wad, 'PLAY', palette),
         puff: loadSpriteSet(wad, 'PUFF', palette),
         fog: loadSpriteSet(wad, 'TFOG', palette),
+        explosion: loadSpriteSet(wad, 'BEXP', palette),
+        monsters: {
+            imp: loadSpriteSet(wad, SPECS.imp.prefix, palette),
+            zombie: loadSpriteSet(wad, SPECS.zombie.prefix, palette),
+        },
         sounds,
     }
 }
@@ -135,7 +173,7 @@ const pick = (set: Map<string, Sprite>, frame: string, rotation: number): Sprite
 class Doomguy implements DoomguyController {
     enabled = false
 
-    private mode: Mode = 'hidden'
+    private phase: Phase = 'hidden'
     private assets?: Assets
     private loading?: Promise<Assets>
     private root?: HTMLDivElement
@@ -153,11 +191,22 @@ class Doomguy implements DoomguyController {
     private walkClock = 0
     private fireStart = -1e9
     private nextShot = 0
-    private modeSince = 0
+    private phaseSince = 0
     private lastOof = 0
     private effects: Effect[] = []
     private tracers: Tracer[] = []
     private fxDirty = false
+
+    /** auto: he roams, fights and blasts things himself; manual: only the keyboard moves him. */
+    mode: DoomguyMode = 'auto'
+    private readonly autopilot = new Autopilot()
+    private readonly elements = new ElementTargets(host)
+    private readonly monsters = new Monsters()
+    private particles: Particle[] = []
+    private nextScan = 0
+    private nextSpawn = 0
+    private totalKills = 0
+    private totalBlasts = 0
 
     private stepFraction = 0
     private pendingSteps = 0
@@ -190,6 +239,7 @@ class Doomguy implements DoomguyController {
         host.addEventListener('resize', () => this.resizeFx())
         getDoomguy()
             .then(async (pref) => {
+                if (pref.mode === 'auto' || pref.mode === 'manual') this.mode = pref.mode
                 if (pref.enabled) await this.setEnabled(true, false)
             })
             .catch(() => undefined)
@@ -200,8 +250,28 @@ class Doomguy implements DoomguyController {
         return () => this.listeners.delete(listener)
     }
 
-    stats(): { steps: number; shots: number } {
-        return { steps: this.totalSteps, shots: this.totalShots }
+    stats(): { steps: number; shots: number; kills: number; blasts: number } {
+        return { steps: this.totalSteps, shots: this.totalShots, kills: this.totalKills, blasts: this.totalBlasts }
+    }
+
+    setMode(mode: DoomguyMode, persist = true): void {
+        if (mode === this.mode) return
+        this.mode = mode
+        for (const listener of this.listeners) listener(this.enabled)
+        if (persist) setDoomguyMode(mode).catch(() => undefined)
+        this.autopilot.reset(performance.now())
+        if (mode === 'manual') {
+            this.vanishMonsters()
+            this.toast('DOOMGUY: MANUAL  (WASD / arrows, Space fires, Ctrl+Alt+M for autopilot)')
+        } else {
+            this.nextSpawn = performance.now() + FIRST_MONSTER_MS
+            this.toast('DOOMGUY: AUTOPILOT  (Ctrl+Alt+M for manual)')
+        }
+    }
+
+    toggleMode(): DoomguyMode {
+        this.setMode(this.mode === 'auto' ? 'manual' : 'auto')
+        return this.mode
     }
 
     toggle(): Promise<boolean> {
@@ -214,7 +284,9 @@ class Doomguy implements DoomguyController {
         for (const listener of this.listeners) listener(value)
         if (persist) setDoomguy(value).catch(() => undefined)
         if (value) {
-            this.toast('DOOMGUY: ON  (Ctrl+Alt+D to dismiss)')
+            this.toast(
+                `DOOMGUY: ON, ${this.mode === 'auto' ? 'AUTOPILOT' : 'MANUAL'}  (Ctrl+Alt+M switches, Ctrl+Alt+D dismisses)`
+            )
             await this.arrive()
         } else {
             this.toast('DOOMGUY: OFF')
@@ -237,16 +309,16 @@ class Doomguy implements DoomguyController {
         } catch (error) {
             this.enabled = false
             this.toast('DOOMGUY: could not load the WAD')
-            console.warn('[x_doom] doomguy assets failed to load', error)
+            console.warn('[x_417611_doom] doomguy assets failed to load', error)
             return
         }
-        if (!this.enabled || this.mode === 'arriving' || this.mode === 'alive') return
+        if (!this.enabled || this.phase === 'arriving' || this.phase === 'alive') return
 
         this.mount()
         this.x = Math.max(120, host.innerWidth - 200)
         this.y = Math.max(160, host.innerHeight - 48)
         this.sector = 2
-        this.setMode('arriving')
+        this.setPhase('arriving')
         this.effects.push({
             sprites: [...'ABCDEFGHIJ'].map((f) => assets.fog.get(`${f}0`)).filter((s): s is Sprite => !!s),
             x: this.x,
@@ -256,16 +328,32 @@ class Doomguy implements DoomguyController {
         })
         this.play('teleport')
         this.lastTime = performance.now()
+        this.autopilot.reset(this.lastTime)
+        this.nextSpawn = this.lastTime + FIRST_MONSTER_MS
+        this.nextScan = 0
         host.requestAnimationFrame(this.tick)
         this.telemetryTimer ??= host.setInterval(() => this.flushTelemetry(false), TELEMETRY_MS)
     }
 
     private depart(): void {
-        if (this.mode === 'hidden') return
+        if (this.phase === 'hidden') return
         this.keys.clear()
         this.flushTelemetry(false)
-        this.setMode('dying')
+        this.elements.restoreAll()
+        this.monsters.clear()
+        this.particles = []
+        this.setPhase('dying')
         this.play('death')
+    }
+
+    /** Monsters leave the way they came: in a puff of teleport fog. */
+    private vanishMonsters(): void {
+        const fog = this.assets && [...'ABCDEFGHIJ'].map((f) => this.assets!.fog.get(`${f}0`)).filter((s): s is Sprite => !!s)
+        const now = performance.now()
+        if (fog) {
+            for (const m of this.monsters.monsters) this.effects.push({ sprites: fog, x: m.x, y: m.y, start: now, frameMs: 70 })
+        }
+        this.monsters.clear()
     }
 
     private mount(): void {
@@ -300,13 +388,14 @@ class Doomguy implements DoomguyController {
         this.root = this.marineCanvas = this.fxCanvas = undefined
         this.effects = []
         this.tracers = []
-        this.setMode('hidden')
+        this.particles = []
+        this.setPhase('hidden')
     }
 
-    private setMode(mode: Mode): void {
-        this.mode = mode
-        this.modeSince = performance.now()
-        if (this.root) this.root.dataset.mode = mode
+    private setPhase(phase: Phase): void {
+        this.phase = phase
+        this.phaseSince = performance.now()
+        if (this.root) this.root.dataset.mode = phase
     }
 
     private resizeFx(): void {
@@ -325,7 +414,13 @@ class Doomguy implements DoomguyController {
             if (!event.repeat) void this.toggle()
             return
         }
-        if (this.mode !== 'alive' && this.mode !== 'arriving') return
+        if (event.ctrlKey && event.altKey && event.code === 'KeyM') {
+            event.preventDefault()
+            event.stopPropagation()
+            if (!event.repeat) this.toggleMode()
+            return
+        }
+        if (this.phase !== 'alive' && this.phase !== 'arriving') return
         if (event.ctrlKey || event.metaKey || event.altKey) return
         const target = event.composedPath()[0] ?? event.target
         if (isEditable(target)) return
@@ -372,44 +467,172 @@ class Doomguy implements DoomguyController {
     // ---- main loop ----------------------------------------------------------------------------
 
     private readonly tick = (now: number): void => {
-        if (this.mode === 'hidden' || !this.marineCanvas) return
+        if (this.phase === 'hidden' || !this.marineCanvas) return
         const dt = Math.min(0.05, (now - this.lastTime) / 1000)
         this.lastTime = now
 
-        if (this.mode === 'arriving' && now - this.modeSince > 560) this.setMode('alive')
-        if (this.mode === 'dying' && now - this.modeSince > DEATH_FRAMES.length * 130 + 1400) {
+        if (this.phase === 'arriving' && now - this.phaseSince > 560) this.setPhase('alive')
+        if (this.phase === 'dying' && now - this.phaseSince > DEATH_FRAMES.length * 130 + 1400) {
             this.unmount()
             return
         }
 
-        const moving = this.mode === 'alive' ? this.move(dt) : false
-        if (this.mode === 'alive') this.shoot(now)
+        let moving = false
+        if (this.phase === 'alive') {
+            this.updateWorld(now, dt)
+            const intent = this.decide(now)
+            moving = this.move(dt, intent)
+            this.shoot(now, intent)
+        }
         this.walkClock = moving ? this.walkClock + dt * 1000 : 0
         this.drawMarine(now, moving)
         this.drawFx(now)
         host.requestAnimationFrame(this.tick)
     }
 
-    private move(dt: number): boolean {
-        let dx = 0
-        let dy = 0
-        if (this.keys.has('ArrowLeft') || this.keys.has('KeyA')) dx -= 1
-        if (this.keys.has('ArrowRight') || this.keys.has('KeyD')) dx += 1
-        if (this.keys.has('ArrowUp') || this.keys.has('KeyW')) dy -= 1
-        if (this.keys.has('ArrowDown') || this.keys.has('KeyS')) dy += 1
-        if (dx === 0 && dy === 0) return false
+    /** Autopilot decides, unless the player is on the keys (or has switched autopilot off). */
+    private decide(now: number): Intent {
+        const held = (...codes: string[]): number => (codes.some((c) => this.keys.has(c)) ? 1 : 0)
+        const manual: Intent = {
+            dx: held('ArrowRight', 'KeyD') - held('ArrowLeft', 'KeyA'),
+            dy: held('ArrowDown', 'KeyS') - held('ArrowUp', 'KeyW'),
+            run: this.keys.has('Run'),
+            fire: this.keys.has('Fire'),
+            aim: null,
+        }
+        const onTheKeys = manual.dx !== 0 || manual.dy !== 0 || manual.fire
+        if (this.mode !== 'auto' || onTheKeys) {
+            this.autopilot.reset(now) // let go cleanly; it picks something new when the keys are released
+            return manual
+        }
+        return this.autopilot.update(now, { x: this.x, y: this.y }, this.autoTargets(), this.bounds())
+    }
+
+    private bounds(): { minX: number; maxX: number; minY: number; maxY: number } {
+        const margin = (ANCHOR_X * SCALE) / 2
+        return {
+            minX: margin,
+            maxX: host.innerWidth - margin,
+            minY: ANCHOR_Y * SCALE * 0.7,
+            maxY: host.innerHeight - 6,
+        }
+    }
+
+    private autoTargets(): AutoTarget[] {
+        return [...this.monsters.targets(), ...this.elements.list().map((e) => e.target)]
+    }
+
+    // ---- the world around him: things to shoot, things that fall apart --------------------------
+
+    private updateWorld(now: number, dt: number): void {
+        if (now >= this.nextScan) {
+            this.nextScan = now + SCAN_MS
+            this.elements.scan(host.__xDoomFrames ?? [], IGNORE_FRAMES, now)
+        }
+        for (const spot of this.elements.restoreDue(now)) this.fog(spot.x, spot.y, now)
+
+        if (this.mode === 'auto') {
+            if (now >= this.nextSpawn && this.monsters.canSpawn()) {
+                const monster = this.monsters.spawn(this.bounds(), now)
+                this.fog(monster.x, monster.y, now)
+                this.play(SPECS[monster.kind].sight)
+                this.nextSpawn = now + 7000 + Math.random() * 8000
+            }
+            this.monsters.update(now, dt, { x: this.x, y: this.y }, this.bounds())
+        }
+        this.particles = this.particles.filter((p) => now - p.born < p.life)
+    }
+
+    private fog(x: number, y: number, now: number): void {
+        const sprites = [...'ABCDEFGHIJ'].map((f) => this.assets?.fog.get(`${f}0`)).filter((s): s is Sprite => !!s)
+        if (sprites.length) this.effects.push({ sprites, x, y, start: now, frameMs: 70 })
+    }
+
+    /** First thing a ray from (x, y) heading (dx, dy) runs into, within `range`. */
+    private rayHit(
+        x: number,
+        y: number,
+        dx: number,
+        dy: number,
+        range: number,
+        now: number
+    ): { distance: number; monster?: Monster; element?: ElementEntry } | null {
+        let best: { distance: number; monster?: Monster; element?: ElementEntry } | null = null
+        for (const monster of this.monsters.alive) {
+            const d = this.monsters.rayHit(monster, x, y, dx, dy)
+            if (d !== null && d <= range && (!best || d < best.distance)) best = { distance: d, monster }
+        }
+        for (const element of this.elements.list()) {
+            const box = this.elements.box(element, now)
+            const d = box ? rayBox(x, y, dx, dy, box) : null
+            if (d !== null && d <= range && (!best || d < best.distance)) best = { distance: d, element }
+        }
+        return best
+    }
+
+    private blast(element: ElementEntry, now: number): void {
+        const gone = this.elements.damage(element, now)
+        if (!gone || !this.assets) return
+        this.totalBlasts += 1
+        this.play('explode')
+        const sprites = [...'ABCDE'].map((f) => this.assets!.explosion.get(`${f}0`)).filter((s): s is Sprite => !!s)
+        if (sprites.length) this.effects.push({ sprites, x: gone.center.x, y: gone.center.y + 28, start: now, frameMs: 80, scale: 1 })
+        // The letters fly apart, with a few sparks.
+        const letters = [...gone.text.replace(/\s+/g, '')].slice(0, 14)
+        for (const ch of letters) this.particle(gone.center, now, ch, gone.color, 14)
+        for (const color of ['#ffd23c', '#ff7a1a', '#ff7a1a', '#b32017', '#b32017', '#555', '#555', '#ffd23c']) {
+            this.particle(gone.center, now, '', color, 5)
+        }
+    }
+
+    private particle(from: Point, now: number, text: string, color: string, size: number): void {
+        const angle = Math.random() * Math.PI * 2
+        const speed = 120 + Math.random() * 320
+        this.particles.push({
+            x: from.x + (Math.random() - 0.5) * 20,
+            y: from.y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 220,
+            born: now,
+            life: 900 + Math.random() * 700,
+            rot: Math.random() * 6,
+            vr: (Math.random() - 0.5) * 14,
+            text,
+            color,
+            size,
+        })
+    }
+
+    private hitMonster(monster: Monster, now: number): void {
+        const result = this.monsters.hit(monster, now)
+        if (result === 'pain') {
+            this.play('pain')
+            return
+        }
+        this.totalKills += 1
+        this.play(SPECS[monster.kind].dies)
+    }
+
+    // ---- movement and shooting ----------------------------------------------------------------
+
+    private move(dt: number, intent: Intent): boolean {
+        const { dx, dy } = intent
+        if (dx === 0 && dy === 0) {
+            // Standing and shooting something: turn to face it.
+            if (intent.aim) {
+                this.sector = (Math.round(Math.atan2(intent.aim.y - (this.y - 46), intent.aim.x - this.x) / (Math.PI / 4)) + 8) % 8
+            }
+            return false
+        }
 
         const length = Math.hypot(dx, dy)
-        const speed = this.keys.has('Run') ? RUN_SPEED : WALK_SPEED
+        const speed = intent.run ? RUN_SPEED : WALK_SPEED
         const nx = this.x + (dx / length) * speed * dt
         const ny = this.y + (dy / length) * speed * dt
-        const minX = (ANCHOR_X * SCALE) / 2
-        const maxX = host.innerWidth - minX
-        const minY = ANCHOR_Y * SCALE * 0.7
-        const maxY = host.innerHeight - 6
-        const cx = Math.min(maxX, Math.max(minX, nx))
-        const cy = Math.min(maxY, Math.max(minY, ny))
-        if ((cx !== nx || cy !== ny) && performance.now() - this.lastOof > 700) {
+        const bounds = this.bounds()
+        const cx = Math.min(bounds.maxX, Math.max(bounds.minX, nx))
+        const cy = Math.min(bounds.maxY, Math.max(bounds.minY, ny))
+        if ((cx !== nx || cy !== ny) && this.mode === 'manual' && performance.now() - this.lastOof > 700) {
             this.lastOof = performance.now()
             this.play('oof')
         }
@@ -427,19 +650,22 @@ class Doomguy implements DoomguyController {
         return true
     }
 
-    private shoot(now: number): void {
-        if (!this.keys.has('Fire') || now < this.nextShot || !this.assets) return
+    private shoot(now: number, intent: Intent): void {
+        if (!intent.fire || now < this.nextShot || !this.assets) return
         this.nextShot = now + FIRE_COOLDOWN_MS
         this.fireStart = now
         this.pendingShots += 1
         this.totalShots += 1
         this.play('pistol')
 
-        const angle = (this.sector * Math.PI) / 4
+        const facing = (this.sector * Math.PI) / 4
+        const x1 = this.x + Math.cos(facing) * 22
+        const y1 = this.y - 46 + Math.sin(facing) * 12
+        // Autopilot aims at its target (with a little wobble); the keyboard fires along the facing.
+        const angle = intent.aim ? Math.atan2(intent.aim.y - y1, intent.aim.x - x1) + (Math.random() - 0.5) * 0.05 : facing
         const dx = Math.cos(angle)
         const dy = Math.sin(angle)
-        const x1 = this.x + dx * 22
-        const y1 = this.y - 46 + dy * 12
+
         let reach = SHOT_RANGE
         for (let d = 30; d < SHOT_RANGE; d += 8) {
             const px = x1 + dx * d
@@ -449,6 +675,8 @@ class Doomguy implements DoomguyController {
                 break
             }
         }
+        const hit = this.rayHit(x1, y1, dx, dy, reach, now)
+        if (hit) reach = hit.distance
         const x2 = x1 + dx * reach
         const y2 = y1 + dy * reach
         this.tracers.push({ x1, y1, x2, y2, until: now + 70 })
@@ -459,6 +687,8 @@ class Doomguy implements DoomguyController {
             start: now + 40,
             frameMs: 70,
         })
+        if (hit?.monster) this.hitMonster(hit.monster, now + 40)
+        if (hit?.element) this.blast(hit.element, now + 40)
     }
 
     // ---- drawing ------------------------------------------------------------------------------
@@ -471,10 +701,10 @@ class Doomguy implements DoomguyController {
 
         let sprite: Sprite | undefined
         let frame = 'A'
-        if (this.mode === 'arriving') {
+        if (this.phase === 'arriving') {
             sprite = undefined // hidden inside the teleport fog
-        } else if (this.mode === 'dying') {
-            const index = Math.min(DEATH_FRAMES.length - 1, Math.floor((now - this.modeSince) / 130))
+        } else if (this.phase === 'dying') {
+            const index = Math.min(DEATH_FRAMES.length - 1, Math.floor((now - this.phaseSince) / 130))
             frame = DEATH_FRAMES[index]!
             sprite = pick(assets.marine, frame, 0)
         } else {
@@ -490,8 +720,8 @@ class Doomguy implements DoomguyController {
 
         // Fade the corpse out before removing it.
         const fade =
-            this.mode === 'dying'
-                ? Math.min(1, Math.max(0, (now - this.modeSince - DEATH_FRAMES.length * 130 - 600) / 800))
+            this.phase === 'dying'
+                ? Math.min(1, Math.max(0, (now - this.phaseSince - DEATH_FRAMES.length * 130 - 600) / 800))
                 : 0
         canvas.style.opacity = String(1 - fade)
         canvas.style.transform = `translate(${Math.round(this.x - ANCHOR_X * SCALE)}px, ${Math.round(this.y - ANCHOR_Y * SCALE)}px)`
@@ -500,33 +730,39 @@ class Doomguy implements DoomguyController {
         root.dataset.x = String(Math.round(this.x))
         root.dataset.y = String(Math.round(this.y))
         root.dataset.sector = String(this.sector)
-        root.dataset.frame = this.mode === 'arriving' ? '-' : frame
+        root.dataset.frame = this.phase === 'arriving' ? '-' : frame
         root.dataset.rotation = String(ROTATION_BY_SECTOR[this.sector])
     }
 
     private drawFx(now: number): void {
         const canvas = this.fxCanvas!
-        const active = this.effects.length > 0 || this.tracers.length > 0
+        const active =
+            this.effects.length > 0 || this.tracers.length > 0 || this.particles.length > 0 || this.monsters.monsters.length > 0
         if (!active && !this.fxDirty) return
         this.fxDirty = false
         const ctx = canvas.getContext('2d')!
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.imageSmoothingEnabled = false
 
+        this.monsters.draw(ctx, now, this.assets?.monsters ?? {}, SCALE)
+
         this.effects = this.effects.filter((effect) => {
             const index = Math.floor((now - effect.start) / effect.frameMs)
             if (index >= effect.sprites.length) return false
             if (index < 0) return true
             const sprite = effect.sprites[index]!
+            const scale = effect.scale ?? SCALE
             ctx.drawImage(
                 sprite.image,
-                Math.round(effect.x - sprite.left * SCALE),
-                Math.round(effect.y - sprite.top * SCALE),
-                sprite.width * SCALE,
-                sprite.height * SCALE
+                Math.round(effect.x - sprite.left * scale),
+                Math.round(effect.y - sprite.top * scale),
+                sprite.width * scale,
+                sprite.height * scale
             )
             return true
         })
+
+        this.drawParticles(ctx, now)
 
         this.tracers = this.tracers.filter((tracer) => {
             if (now > tracer.until) return false
@@ -539,7 +775,33 @@ class Doomguy implements DoomguyController {
             return true
         })
         // Leave one more pass to wipe the final frame, but only if there was something to wipe.
-        this.fxDirty = active && this.effects.length === 0 && this.tracers.length === 0
+        this.fxDirty = active && this.effects.length === 0 && this.tracers.length === 0 && this.monsters.monsters.length === 0
+    }
+
+    private drawParticles(ctx: CanvasRenderingContext2D, now: number): void {
+        const dt = 1 / 60 // close enough for a handful of scraps; keeps the update inside the draw pass
+        for (const p of this.particles) {
+            p.vy += GRAVITY * dt
+            p.x += p.vx * dt
+            p.y += p.vy * dt
+            p.rot += p.vr * dt
+            ctx.globalAlpha = Math.max(0, Math.min(1, (p.life - (now - p.born)) / 400))
+            ctx.save()
+            ctx.translate(p.x, p.y)
+            ctx.rotate(p.rot)
+            if (p.text) {
+                ctx.fillStyle = p.color
+                ctx.font = `bold ${p.size}px ui-monospace, Menlo, Consolas, monospace`
+                ctx.textAlign = 'center'
+                ctx.textBaseline = 'middle'
+                ctx.fillText(p.text, 0, 0)
+            } else {
+                ctx.fillStyle = p.color
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size)
+            }
+            ctx.restore()
+        }
+        ctx.globalAlpha = 1
     }
 
     // ---- audio, toast, telemetry --------------------------------------------------------------
@@ -639,6 +901,6 @@ export async function getController(): Promise<DoomguyController> {
     throw new Error('Doomguy could not be loaded into the top window')
 }
 
-// The settings page (x_doom_doomguy.do) shares this entry so the global UI Script has one stable asset to load.
+// The settings page (x_417611_doom_doomguy.do) shares this entry so the global UI Script has one stable asset to load.
 const settingsRoot = document.getElementById('doomguy-settings')
 if (settingsRoot) void initSettingsPage(settingsRoot, getController)

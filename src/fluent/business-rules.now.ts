@@ -4,7 +4,7 @@ import { completeRun, defaultCallsign, lockClosedRuns, updateRank } from '../ser
 BusinessRule({
     $id: Now.ID['br-player-callsign'],
     name: 'Doom: default callsign',
-    table: 'x_doom_player',
+    table: 'x_417611_doom_player',
     when: 'before',
     action: ['insert'],
     order: 100,
@@ -16,7 +16,7 @@ BusinessRule({
 BusinessRule({
     $id: Now.ID['br-player-rank'],
     name: 'Doom: rank follows kills',
-    table: 'x_doom_player',
+    table: 'x_417611_doom_player',
     when: 'before',
     action: ['insert', 'update'],
     order: 200,
@@ -28,7 +28,7 @@ BusinessRule({
 BusinessRule({
     $id: Now.ID['br-run-lock'],
     name: 'Doom: closed runs stay closed',
-    table: 'x_doom_run',
+    table: 'x_417611_doom_run',
     when: 'before',
     action: ['update'],
     order: 100,
@@ -41,7 +41,7 @@ BusinessRule({
 BusinessRule({
     $id: Now.ID['br-run-complete'],
     name: 'Doom: bank completed run',
-    table: 'x_doom_run',
+    table: 'x_417611_doom_run',
     when: 'after',
     action: ['update'],
     order: 100,

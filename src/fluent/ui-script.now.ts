@@ -5,7 +5,7 @@ Record({
     $id: Now.ID['ui-script-doomguy-loader'],
     table: 'sys_ui_script',
     data: {
-        name: 'x_doom.doomguy_loader',
+        name: 'x_417611_doom.doomguy_loader',
         description:
             'Loads the Doomguy controller into the top window. Doomguy stays asleep until the user switches him on.',
         global: true,

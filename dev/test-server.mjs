@@ -5,7 +5,7 @@ import assert from 'node:assert/strict'
 import { boot, db, handle, reset, tableRows } from './platform.mjs'
 import { GlideDateTime, GlideRecord, setUser } from './mock-glide.mjs'
 
-const BASE = '/api/x_doom/doom'
+const BASE = '/api/x_417611_doom/doom'
 const call = (method, path, options = {}) => handle({ method, path: BASE + path, ...options })
 const result = (response) => {
     assert.ok(response.status < 300, `unexpected ${response.status}: ${JSON.stringify(response.body)}`)
@@ -51,18 +51,18 @@ describe('profile', () => {
             [1, 2, 3, 4, 5]
         )
         assert.equal(me.doomguyEnabled, false)
-        assert.equal(tableRows('x_doom_player').size, 1)
+        assert.equal(tableRows('x_417611_doom_player').size, 1)
     })
 
     it('does not create a second player row for the same user', () => {
         call('GET', '/me')
         call('GET', '/me')
-        assert.equal(tableRows('x_doom_player').size, 1)
+        assert.equal(tableRows('x_417611_doom_player').size, 1)
     })
 
     it('enforces the unique index on player.user', () => {
         call('GET', '/me')
-        const dupe = new GlideRecord('x_doom_player')
+        const dupe = new GlideRecord('x_417611_doom_player')
         dupe.initialize()
         dupe.setValue('user', 'u_marine')
         assert.equal(dupe.insert(), null)
@@ -73,7 +73,7 @@ describe('runs', () => {
     it('starts a numbered run in the playing state', () => {
         const run = result(call('POST', '/runs', { body: { episode: 1, skill: 4 } }))
         assert.match(run.number, /^DOOM\d{7}$/)
-        const row = tableRows('x_doom_run').get(run.runId)
+        const row = tableRows('x_417611_doom_run').get(run.runId)
         assert.equal(row.state, 'playing')
         assert.equal(row.skill, '4')
     })
@@ -81,7 +81,7 @@ describe('runs', () => {
     it('abandons a previous run that is still in progress when a new one starts', () => {
         const first = result(call('POST', '/runs', { body: { episode: 1, skill: 3 } }))
         result(call('POST', '/runs', { body: { episode: 1, skill: 3 } }))
-        assert.equal(tableRows('x_doom_run').get(first.runId).state, 'abandoned')
+        assert.equal(tableRows('x_417611_doom_run').get(first.runId).state, 'abandoned')
     })
 
     it('rejects bad input', () => {
@@ -125,7 +125,7 @@ describe('runs', () => {
 
         const codes = done.newAchievements.map((a) => a.code).sort()
         assert.deepEqual(codes, ['first_blood', 'hangar_cleared', 'perfectionist', 'speed_demon'].sort())
-        assert.equal(tableRows('x_doom_level_stat').size, 2)
+        assert.equal(tableRows('x_417611_doom_level_stat').size, 2)
     })
 
     it('does not grant the same achievement twice', () => {
@@ -162,7 +162,7 @@ describe('runs', () => {
         const run = result(call('POST', '/runs', { user: 'marine', body: { episode: 1, skill: 3 } }))
         assert.equal(call('POST', `/runs/${run.runId}/abandon`, { user: 'isabella', body: {} }).status, 404)
         assert.equal(call('POST', `/runs/${run.runId}/abandon`, { user: 'marine', body: {} }).status, 200)
-        assert.equal(tableRows('x_doom_run').get(run.runId).state, 'abandoned')
+        assert.equal(tableRows('x_417611_doom_run').get(run.runId).state, 'abandoned')
     })
 })
 
@@ -189,7 +189,7 @@ describe('integrity checks', () => {
     }
 
     it('keeps a suspect run, flagged, when the property says not to reject', () => {
-        db.properties.set('x_doom.reject_suspect_runs', 'false')
+        db.properties.set('x_417611_doom.reject_suspect_runs', 'false')
         const done = result(playRun('mallory', [level({ kills: 13 })]).response)
         assert.equal(done.state, 'completed')
         assert.equal(done.integrity, 'suspect')
@@ -198,7 +198,7 @@ describe('integrity checks', () => {
 
     it('rejected runs are kept for audit and never reach the leaderboard', () => {
         playRun('mallory', [level({ kills: 13 })])
-        assert.equal(tableRows('x_doom_level_stat').size, 1)
+        assert.equal(tableRows('x_417611_doom_level_stat').size, 1)
         assert.deepEqual(result(call('GET', '/leaderboard')), [])
     })
 })
@@ -206,17 +206,17 @@ describe('integrity checks', () => {
 describe('business rules', () => {
     it('a closed run cannot be reopened', () => {
         const { run } = playRun('marine', [level()])
-        const gr = new GlideRecord('x_doom_run')
+        const gr = new GlideRecord('x_417611_doom_run')
         assert.ok(gr.get(run.runId))
         gr.setValue('state', 'playing')
         assert.equal(gr.update(), null)
-        assert.equal(tableRows('x_doom_run').get(run.runId).state, 'completed')
+        assert.equal(tableRows('x_417611_doom_run').get(run.runId).state, 'completed')
         assert.match(db.messages.at(-1), /cannot be reopened/)
     })
 
     it('rank follows total_kills even when an admin edits the row', () => {
         call('GET', '/me')
-        const gr = new GlideRecord('x_doom_player')
+        const gr = new GlideRecord('x_417611_doom_player')
         gr.query()
         assert.ok(gr.next())
         gr.setValue('total_kills', 60)
@@ -229,7 +229,7 @@ describe('business rules', () => {
 
     it('completing a run only fires the banking rule on the change to completed', () => {
         const { run } = playRun('marine', [level()])
-        const gr = new GlideRecord('x_doom_run')
+        const gr = new GlideRecord('x_417611_doom_run')
         gr.get(run.runId)
         gr.setValue('integrity_notes', 'touched by an admin')
         gr.update()
@@ -262,8 +262,21 @@ describe('doomguy', () => {
         assert.equal(result(call('GET', '/doomguy')).enabled, false)
     })
 
+    it('stores the autopilot/manual mode per user, defaulting to auto, independently of the switch', () => {
+        assert.equal(result(call('GET', '/doomguy')).mode, 'auto')
+        result(call('PUT', '/doomguy', { body: { mode: 'manual' } }))
+        const after = result(call('GET', '/doomguy'))
+        assert.equal(after.mode, 'manual')
+        assert.equal(after.enabled, false) // untouched
+        result(call('PUT', '/doomguy', { body: { enabled: true } }))
+        assert.equal(result(call('GET', '/doomguy')).mode, 'manual') // untouched
+        assert.equal(result(call('GET', '/doomguy', { user: 'isabella' })).mode, 'auto')
+        result(call('PUT', '/doomguy', { body: { mode: 'nonsense' } }))
+        assert.equal(result(call('GET', '/doomguy')).mode, 'manual')
+    })
+
     it('uses the system property as the default for users who never chose', () => {
-        db.properties.set('x_doom.doomguy.default_enabled', 'true')
+        db.properties.set('x_417611_doom.doomguy.default_enabled', 'true')
         assert.equal(result(call('GET', '/doomguy', { user: 'isabella' })).enabled, true)
     })
 

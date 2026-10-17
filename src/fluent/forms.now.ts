@@ -1,7 +1,7 @@
 import { Form, List, default_view } from '@servicenow/sdk/core'
 
 Form({
-    table: 'x_doom_player',
+    table: 'x_417611_doom_player',
     view: default_view,
     sections: [
         {
@@ -46,13 +46,13 @@ Form({
 })
 
 List({
-    table: 'x_doom_player',
+    table: 'x_417611_doom_player',
     view: default_view,
     columns: ['callsign', 'rank_title', 'best_score', 'total_kills', 'runs_completed', 'last_played'],
 })
 
 Form({
-    table: 'x_doom_run',
+    table: 'x_417611_doom_run',
     view: default_view,
     sections: [
         {
@@ -93,13 +93,13 @@ Form({
 })
 
 List({
-    table: 'x_doom_run',
+    table: 'x_417611_doom_run',
     view: default_view,
     columns: ['number', 'player', 'state', 'skill', 'levels_completed', 'kills', 'score', 'integrity', 'started_at'],
 })
 
 Form({
-    table: 'x_doom_level_stat',
+    table: 'x_417611_doom_level_stat',
     view: default_view,
     sections: [
         {
@@ -129,13 +129,13 @@ Form({
 })
 
 List({
-    table: 'x_doom_level_stat',
+    table: 'x_417611_doom_level_stat',
     view: default_view,
     columns: ['run', 'map', 'kills', 'kills_max', 'items', 'secrets', 'time_seconds', 'par_seconds', 'score'],
 })
 
 Form({
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     view: default_view,
     sections: [
         {
@@ -161,13 +161,13 @@ Form({
 })
 
 List({
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     view: default_view,
     columns: ['sort_order', 'name', 'code', 'metric', 'threshold', 'active'],
 })
 
 Form({
-    table: 'x_doom_player_achievement',
+    table: 'x_417611_doom_player_achievement',
     view: default_view,
     sections: [
         {
@@ -190,7 +190,7 @@ Form({
 })
 
 List({
-    table: 'x_doom_player_achievement',
+    table: 'x_417611_doom_player_achievement',
     view: default_view,
     columns: ['player', 'achievement', 'earned_at', 'run'],
 })

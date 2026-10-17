@@ -61,14 +61,14 @@ const newPage = async (user = 'marine') => {
     return page
 }
 const api = (page, path, init) =>
-    page.evaluate(async ([p, i]) => (await fetch('/api/x_doom/doom' + p, i)).json(), [path, init])
+    page.evaluate(async ([p, i]) => (await fetch('/api/x_417611_doom/doom' + p, i)).json(), [path, init])
 
 // ---------------------------------------------------------------------------------------------
 console.log('Doom page')
 {
     const page = await newPage('marine')
     await step('loads the player card, skills and leaderboard from the API', async () => {
-        await page.goto(`${origin}/x_doom_play.do`)
+        await page.goto(`${origin}/x_417611_doom_play.do`)
         await page.waitForFunction(() => document.getElementById('callsign').textContent === 'Dev Marine')
         assert.equal(await page.locator('#skill option').count(), 5)
         assert.equal(await page.locator('#skill').inputValue(), '3')
@@ -108,7 +108,7 @@ console.log('Doom page')
 
 {
     const page = await newPage('marine')
-    await page.goto(`${origin}/x_doom_play.do`)
+    await page.goto(`${origin}/x_417611_doom_play.do`)
     await page.waitForFunction(() => !document.getElementById('btn-start').disabled)
     await step('reads the stat dump the engine prints, submits it and shows the banked run', async () => {
         await page.click('#btn-start')
@@ -290,7 +290,7 @@ console.log('Doomguy in the classic UI')
     })
 
     await step('the settings page toggles him and reflects his state', async () => {
-        await page.evaluate(() => (document.getElementById('gsft_main').src = '/x_doom_doomguy.do'))
+        await page.evaluate(() => (document.getElementById('gsft_main').src = '/x_417611_doom_doomguy.do'))
         await frame().waitForFunction(
             () => document.getElementById('dg-toggle') && !document.getElementById('dg-toggle').disabled,
             null,

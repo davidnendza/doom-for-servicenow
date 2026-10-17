@@ -37,7 +37,7 @@ function seedUsers() {
 
 function seedRecords() {
     for (const { table, data } of registry.records) {
-        if (table !== 'x_doom_achievement') continue
+        if (table !== 'x_417611_doom_achievement') continue
         const row = Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)]))
         row.sys_id = newId()
         tableRows(table).set(row.sys_id, row)
@@ -54,7 +54,7 @@ export async function boot() {
     const api = registry.restApis.find((a) => a.serviceId === 'doom')
     routes = api.routes.map((route) => ({
         method: route.method,
-        pattern: new RegExp('^/api/x_doom/doom' + route.path.replace(/\{(\w+)\}/g, '(?<$1>[^/]+)') + '$'),
+        pattern: new RegExp('^/api/x_417611_doom/doom' + route.path.replace(/\{(\w+)\}/g, '(?<$1>[^/]+)') + '$'),
         script: route.script,
     }))
     resetData()
@@ -84,7 +84,8 @@ export function handle({ method, path, query = {}, body, user = 'marine' }) {
     }
     const response = { status: 200, body: undefined }
     response.setStatus = (code) => (response.status = code)
-    response.setBody = (value) => (response.body = JSON.parse(JSON.stringify(value)))
+    // Like the platform, wrap the body in { result: ... }.
+    response.setBody = (value) => (response.body = { result: JSON.parse(JSON.stringify(value)) })
     response.setError = (error) => {
         if (!(error instanceof ServiceError)) throw new Error('setError expects a ServiceError')
         response.status = error.status

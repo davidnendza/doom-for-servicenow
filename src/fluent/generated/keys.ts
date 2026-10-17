@@ -6,43 +6,43 @@ declare global {
             interface Keys extends KeysRegistry {
                 explicit: {
                     'ach-first-blood': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: 'f4147a0904bc428eb07070ded54719e4'
                     }
                     'ach-five-figures': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '62a8abc5769f49b6b50e183a13fd9f77'
                     }
                     'ach-hangar': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '01556d33a0d94de9a94113ae51e9082d'
                     }
                     'ach-marathon': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '3d1e28415cd74b85b5c8cbcf1394fa6a'
                     }
                     'ach-perfectionist': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: 'b565fde13631490b93bb5ff8e013d670'
                     }
                     'ach-rip-tear': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '33940a6e8c0849d3b52cf023f1a8127a'
                     }
                     'ach-secret-agent': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '7f044ce135194bcba6c5838ad9e665f3'
                     }
                     'ach-slayer': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '7d0daf0078be497d81a52cc9b1f4e243'
                     }
                     'ach-speed-demon': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: '34b896cf98bb4fe78fd33c1e486e2283'
                     }
                     'ach-trigger': {
-                        table: 'x_doom_achievement'
+                        table: 'x_417611_doom_achievement'
                         id: 'fce3ca6e716a476e925efae73e8c3fbc'
                     }
                     bom_json: {
@@ -197,83 +197,83 @@ declare global {
                         table: 'sys_ui_script'
                         id: '269dfaa92db34e5995504aecbe649a32'
                     }
-                    'x_doom_achievement-create': {
+                    'x_417611_doom_achievement-create': {
                         table: 'sys_security_acl'
                         id: '7e81f9bfa7c6401e8aa4a575306f2cfa'
                     }
-                    'x_doom_achievement-delete': {
+                    'x_417611_doom_achievement-delete': {
                         table: 'sys_security_acl'
                         id: 'dc9b71903ed144fc981ac63014f45a04'
                     }
-                    'x_doom_achievement-read': {
+                    'x_417611_doom_achievement-read': {
                         table: 'sys_security_acl'
                         id: '19a25cfef7914bf6a9410ede7b450a93'
                     }
-                    'x_doom_achievement-write': {
+                    'x_417611_doom_achievement-write': {
                         table: 'sys_security_acl'
                         id: '03693cb8bd904cbfa67cc825d2280b1f'
                     }
-                    'x_doom_level_stat-create': {
+                    'x_417611_doom_level_stat-create': {
                         table: 'sys_security_acl'
                         id: 'e3e1dcf918564c25a37b4e57f9f4bc27'
                     }
-                    'x_doom_level_stat-delete': {
+                    'x_417611_doom_level_stat-delete': {
                         table: 'sys_security_acl'
                         id: 'c81abaa3cbbe4bde9396b863c9182db8'
                     }
-                    'x_doom_level_stat-read': {
+                    'x_417611_doom_level_stat-read': {
                         table: 'sys_security_acl'
                         id: '3eb357ee4e0448e3bd8321f609aede43'
                     }
-                    'x_doom_level_stat-write': {
+                    'x_417611_doom_level_stat-write': {
                         table: 'sys_security_acl'
                         id: '806b058734a14d8ca885e6b8c0ad2e60'
                     }
-                    'x_doom_player_achievement-create': {
+                    'x_417611_doom_player_achievement-create': {
                         table: 'sys_security_acl'
                         id: '92caef1961c545c78f5113acec7a1f3c'
                     }
-                    'x_doom_player_achievement-delete': {
+                    'x_417611_doom_player_achievement-delete': {
                         table: 'sys_security_acl'
                         id: 'ab9754d430ff4f119242ed38084224df'
                     }
-                    'x_doom_player_achievement-read': {
+                    'x_417611_doom_player_achievement-read': {
                         table: 'sys_security_acl'
                         id: '7bd1f27a0b3941f2912d21a88d0a9ea0'
                     }
-                    'x_doom_player_achievement-write': {
+                    'x_417611_doom_player_achievement-write': {
                         table: 'sys_security_acl'
                         id: '751f6dceabf64b0893f904d68e3cf029'
                     }
-                    'x_doom_player-create': {
+                    'x_417611_doom_player-create': {
                         table: 'sys_security_acl'
                         id: 'fa56a93164454695b1aa38e291fa568e'
                     }
-                    'x_doom_player-delete': {
+                    'x_417611_doom_player-delete': {
                         table: 'sys_security_acl'
                         id: '3018d231696047488e4439ef1ab67c50'
                     }
-                    'x_doom_player-read': {
+                    'x_417611_doom_player-read': {
                         table: 'sys_security_acl'
                         id: '48baddcd9f3f49eeb9decf90fd4ccd22'
                     }
-                    'x_doom_player-write': {
+                    'x_417611_doom_player-write': {
                         table: 'sys_security_acl'
                         id: '5494a0caf4ec42bc8dc92ae80dcc4e29'
                     }
-                    'x_doom_run-create': {
+                    'x_417611_doom_run-create': {
                         table: 'sys_security_acl'
                         id: '2fe06e4b800642c7a338ce0ae66fef92'
                     }
-                    'x_doom_run-delete': {
+                    'x_417611_doom_run-delete': {
                         table: 'sys_security_acl'
                         id: 'a7f818c22398496c8e82ca765ef3ff34'
                     }
-                    'x_doom_run-read': {
+                    'x_417611_doom_run-read': {
                         table: 'sys_security_acl'
                         id: '5bcb20c942974ea1aaea42851b367ca2'
                     }
-                    'x_doom_run-write': {
+                    'x_417611_doom_run-write': {
                         table: 'sys_security_acl'
                         id: '45f839e117af48f7a4e1ee552117de7d'
                     }
@@ -283,7 +283,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '00d9b680003240bdaf05cc94827c9129'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'last_played'
                             language: 'en'
                         }
@@ -295,7 +295,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -314,7 +314,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '0260b6942fea475ca1496c319b98cadb'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'duration_seconds'
                             language: 'en'
                         }
@@ -323,7 +323,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '0296489ef6e74143be58ccc0bb1a0d0c'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'score'
                             language: 'en'
                         }
@@ -332,7 +332,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '039529b13fb346e8aebc9fdb72161235'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'code'
                             language: 'en'
                         }
@@ -344,7 +344,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -367,7 +367,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -386,14 +386,14 @@ declare global {
                         table: 'sys_db_object'
                         id: '05ed37af04284c83938699601e647e3f'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                         }
                     },
                     {
                         table: 'sys_db_object'
                         id: '07557b87111547789b349522194db37d'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                         }
                     },
                     {
@@ -404,7 +404,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -413,7 +413,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '08122b4f7d4c42fd867487bb311b2fac'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'rank_title'
                         }
                     },
@@ -421,7 +421,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '09303caa87624b878e52f8cf86b4236d'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'levels_completed'
                         }
                     },
@@ -429,7 +429,7 @@ declare global {
                         table: 'sys_ui_section'
                         id: '0a24cd8f3105490d8468d377a7e29d7e'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             caption: 'Marine'
                             view: {
                                 id: 'Default view'
@@ -444,7 +444,7 @@ declare global {
                         table: 'sys_choice'
                         id: '0aecab0ed22644ff81c5fa367495ca8b'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'run_kills'
                             language: 'en'
@@ -455,7 +455,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '0ce7bbdd7727475dbda1ef4037f218ea'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'runs_completed'
                         }
                     },
@@ -463,7 +463,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '0d1c1dfad744487aac79e90cdbaef4c5'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                             language: 'en'
                         }
@@ -472,7 +472,7 @@ declare global {
                         table: 'sys_ui_form'
                         id: '0d6f07de4f7748bc9ef562116f176717'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -489,7 +489,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -508,7 +508,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '0fb00488fe22435cb3a73e3e3eb3959c'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'items'
                         }
                     },
@@ -519,7 +519,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -542,7 +542,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -561,7 +561,7 @@ declare global {
                         table: 'sys_ui_section'
                         id: '12513c32c33b411dae4234e12d0c04ed'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             caption: 'Run'
                             view: {
                                 id: 'Default view'
@@ -576,7 +576,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '135f4938cc1946ca86e33c00ee4cd117'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'NULL'
                         }
                     },
@@ -584,7 +584,7 @@ declare global {
                         table: 'sys_choice'
                         id: '141429e2c52945f78052180afd444cd7'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             value: '4'
                             language: 'en'
@@ -595,7 +595,7 @@ declare global {
                         table: 'sys_choice_set'
                         id: '14f4b57ad63f485e9fbee34f4a9307a1'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                         }
                     },
@@ -607,7 +607,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -616,7 +616,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '1654a0110f394e0f82142070ebb475e4'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'player'
                             language: 'en'
                         }
@@ -629,7 +629,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -641,7 +641,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -660,7 +660,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '180117bf1d9f48799c1db94ae13f6766'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                         }
                     },
@@ -668,7 +668,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '18c59e6d7cd14022b3d0f48ae31d9655'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'secrets'
                             language: 'en'
                         }
@@ -677,7 +677,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '18dd82cfdaa740cdbb3fc80dea1d1031'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'secrets_max'
                         }
                     },
@@ -688,7 +688,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -711,7 +711,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -733,7 +733,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -763,7 +763,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -794,7 +794,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -806,7 +806,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -828,7 +828,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -847,7 +847,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '1f4217f6e0c847e6acdcc3b2310bc526'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                         }
                     },
@@ -855,14 +855,14 @@ declare global {
                         table: 'sys_db_object'
                         id: '2025d20ebb874f878d95eb94a40166a9'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: '206c8920d64e4ec6beedd0f91c8281fa'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'time_seconds'
                         }
                     },
@@ -870,7 +870,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '20ef5e5beb7a4f1c97ee1942c548ef17'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'kills_max'
                         }
                     },
@@ -882,7 +882,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -895,7 +895,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -904,7 +904,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '239dc575080442609c1722ae0f56cea6'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             language: 'en'
                         }
@@ -913,7 +913,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '240f7a38ff5e4f72bae6f2db77476517'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_kills'
                             language: 'en'
                         }
@@ -925,7 +925,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -944,7 +944,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '25bb20c02aca4f1880b1a08f2172bbb0'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'NULL'
                             language: 'en'
                         }
@@ -956,7 +956,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -976,7 +976,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '290b02ed7ac14f708ffe7e17495bd1e7'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'NULL'
                             language: 'en'
                         }
@@ -988,7 +988,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1007,14 +1007,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '29dbec50d3aa4a71960fac8c2b3d3595'
                         key: {
-                            name: 'x_doom/doomguy.js.map'
+                            name: 'x_417611_doom/doomguy.js.map'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: '29fbc643488641d6b0108a25a14937ed'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'score'
                         }
                     },
@@ -1022,7 +1022,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '2aa3ebfacd2b4f7ca2522c4beb3840f2'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'best_score'
                         }
                     },
@@ -1030,7 +1030,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '2b0a215494b3422cb1b9b374c1b55707'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity_notes'
                             language: 'en'
                         }
@@ -1043,7 +1043,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -1055,7 +1055,7 @@ declare global {
                             sys_ui_form: {
                                 id: '9921e6f40acc453c96aaa92375f5725d'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -1068,7 +1068,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -1085,7 +1085,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '2be48c6afd564fc88fcbbfb2bda385f1'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'levels_completed'
                             language: 'en'
                         }
@@ -1097,7 +1097,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -1119,7 +1119,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1138,7 +1138,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '2d0ddd84e33b45b99e35420d632e95e0'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'player'
                             language: 'en'
                         }
@@ -1150,7 +1150,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1169,7 +1169,7 @@ declare global {
                         table: 'sys_choice'
                         id: '301d7f9d239342eba46f48c03d6be617'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             value: '2'
                             language: 'en'
@@ -1183,7 +1183,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1205,7 +1205,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1224,7 +1224,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '31af847dda3946e9a4e977387bf554a9'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_items'
                         }
                     },
@@ -1235,7 +1235,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -1258,7 +1258,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -1278,7 +1278,7 @@ declare global {
                         table: 'sn_glider_source_artifact'
                         id: '3249a146819640799dc67c997e3001f3'
                         key: {
-                            name: 'x_doom_doomguy.do - BYOUI Files'
+                            name: 'x_417611_doom_doomguy.do - BYOUI Files'
                         }
                     },
                     {
@@ -1288,7 +1288,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1310,7 +1310,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1332,7 +1332,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1351,7 +1351,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '353ef963179f4991b873cac5287ce460'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'threshold'
                         }
                     },
@@ -1359,7 +1359,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '35501fd26782475b9196c09abc852a5b'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'par_beaten'
                         }
                     },
@@ -1370,7 +1370,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1389,7 +1389,7 @@ declare global {
                         table: 'sys_ui_section'
                         id: '385c12f6c0e64771bce01c8f487dd8ed'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             caption: 'Achievement'
                             view: {
                                 id: 'Default view'
@@ -1404,14 +1404,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '38ffc790c087432c9142d6fa59c0fdfb'
                         key: {
-                            name: 'x_doom/game-cfg.js.map'
+                            name: 'x_417611_doom/game-cfg.js.map'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: '39b39f1a1411473ca5b29fb16466905a'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'ended_at'
                         }
                     },
@@ -1419,7 +1419,7 @@ declare global {
                         table: 'sn_glider_source_artifact'
                         id: '3a8a614bdb4548d2acea748242c0d405'
                         key: {
-                            name: 'x_doom_play.do - BYOUI Files'
+                            name: 'x_417611_doom_play.do - BYOUI Files'
                         }
                     },
                     {
@@ -1429,7 +1429,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -1448,7 +1448,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '3b93b6fd44354e6c9010df02f89aec43'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'kills'
                             language: 'en'
                         }
@@ -1460,7 +1460,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -1482,7 +1482,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -1504,7 +1504,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1523,7 +1523,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '3eb654c1a19c487c90564c23eab2f4a4'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity'
                         }
                     },
@@ -1534,7 +1534,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1553,7 +1553,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '3fc15b14de1447588951d24ea50b120d'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'ended_at'
                             language: 'en'
                         }
@@ -1562,7 +1562,7 @@ declare global {
                         table: 'sys_choice'
                         id: '405d9a9571e14c0697d52ea1c217f0d2'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity'
                             value: 'suspect'
                             language: 'en'
@@ -1573,7 +1573,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '4084dcf8ea7a46ffa714df7f56c4e898'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'run'
                             language: 'en'
                         }
@@ -1585,7 +1585,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1604,7 +1604,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '4143f99d98744f54a80c115a3ed58b60'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'best_score'
                             language: 'en'
                         }
@@ -1616,7 +1616,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -1635,7 +1635,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '41da9673535b467293b7985b251bb660'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'items'
                         }
                     },
@@ -1643,7 +1643,7 @@ declare global {
                         table: 'sys_ui_list'
                         id: '42e781c9bf494b8ca79e8661caed152f'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -1660,7 +1660,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '431356309fdc47b5aa494296deae89df'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'par_beaten'
                             language: 'en'
                         }
@@ -1672,7 +1672,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1691,7 +1691,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '45c4b2ca12eb4c138c34c861dedd897e'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'duration_seconds'
                         }
                     },
@@ -1699,7 +1699,7 @@ declare global {
                         table: 'sys_choice_set'
                         id: '45d24ea8cbf04ef19773ec08c3b9df58'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity'
                         }
                     },
@@ -1710,7 +1710,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -1729,7 +1729,7 @@ declare global {
                         table: 'ua_table_licensing_config'
                         id: '463df7e92cdd4fb4adc9d37fa98167be'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                         }
                     },
                     {
@@ -1739,7 +1739,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -1758,7 +1758,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '4681d4b14583430ea378a039841d6fec'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'user'
                             language: 'en'
                         }
@@ -1770,7 +1770,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -1790,14 +1790,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '48eab23eb2ab4d50be701e881ca815c0'
                         key: {
-                            name: 'x_doom/doom'
+                            name: 'x_417611_doom/doom'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: '496c43b15d5a4a1a90f715eda6b276d1'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'NULL'
                         }
                     },
@@ -1805,7 +1805,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '4a261b8ada1f49698b0ac94ad9bf17b8'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_secrets'
                             language: 'en'
                         }
@@ -1814,7 +1814,7 @@ declare global {
                         table: 'sys_choice'
                         id: '4a72b78609bf4308bb8b59ca15e4a0b8'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'run_score'
                             language: 'en'
@@ -1825,7 +1825,7 @@ declare global {
                         table: 'sys_number'
                         id: '4be840b70f374edabe5ddc922886eeb9'
                         key: {
-                            category: 'x_doom_run'
+                            category: 'x_417611_doom_run'
                             prefix: 'DOOM'
                         }
                     },
@@ -1836,7 +1836,7 @@ declare global {
                             list_id: {
                                 id: '42e781c9bf494b8ca79e8661caed152f'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -1859,7 +1859,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -1878,14 +1878,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '4edcf91ff6014c0688c75ecdb0b38ad5'
                         key: {
-                            name: 'x_doom/engine-wasm'
+                            name: 'x_417611_doom/engine-wasm'
                         }
                     },
                     {
                         table: 'sys_choice'
                         id: '4f3e62bfa36c4cf7bc5fcab4b2f8380a'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity'
                             value: 'verified'
                             language: 'en'
@@ -1896,7 +1896,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '4fbdc8d8560e4ebf89634c4f3661c200'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'earned_at'
                             language: 'en'
                         }
@@ -1905,7 +1905,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '5031a557913b4d38842d209311808786'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'rank_title'
                             language: 'en'
                         }
@@ -1914,7 +1914,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '508dbcccd7904433aed119ac416d5ec0'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'secrets'
                         }
                     },
@@ -1922,7 +1922,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '5117119a09ee4cf091e980f5ad9a9243'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'playtime_seconds'
                         }
                     },
@@ -1933,7 +1933,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -1952,7 +1952,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '536ed8383106423ba2bfa2bb51a34c87'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'run'
                         }
                     },
@@ -1960,7 +1960,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '539b37b80d5f487b9335211a3bdbc5e5'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'levels_cleared'
                         }
                     },
@@ -1968,7 +1968,7 @@ declare global {
                         table: 'sys_choice'
                         id: '547e514135ce4e9d891ad4bd128e3db8'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'levels_cleared'
                             language: 'en'
@@ -1990,7 +1990,7 @@ declare global {
                             list_id: {
                                 id: '42e781c9bf494b8ca79e8661caed152f'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2010,7 +2010,7 @@ declare global {
                         table: 'sys_index'
                         id: '56ea8f6bd2034a8fa9c46d6df3658b0d'
                         key: {
-                            logical_table_name: 'x_doom_player_achievement'
+                            logical_table_name: 'x_417611_doom_player_achievement'
                             col_name_string: 'player,achievement'
                         }
                     },
@@ -2018,7 +2018,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '58ba8413bf9c445da94a6a0a32caa08f'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'NULL'
                             language: 'en'
                         }
@@ -2030,7 +2030,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2049,14 +2049,14 @@ declare global {
                         table: 'sys_ui_page'
                         id: '5c1352b686ba4b81b0e36c28e726ed93'
                         key: {
-                            endpoint: 'x_doom_doomguy.do'
+                            endpoint: 'x_417611_doom_doomguy.do'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: '5dbccf78656b4065a3e2fc1d128569b2'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'earned_at'
                         }
                     },
@@ -2064,7 +2064,7 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '5e0087ffdab748bdb4d1c189893bf1e3'
                         key: {
-                            name: 'x_doom/engine-wasm.js.map'
+                            name: 'x_417611_doom/engine-wasm.js.map'
                         }
                     },
                     {
@@ -2074,7 +2074,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2096,7 +2096,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2116,7 +2116,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '64e129516afc412ea88786fe2ffa080d'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'perfect_levels'
                         }
                     },
@@ -2124,7 +2124,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '6503bd1c3068456ab9b710923c4331d5'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'achievement'
                             language: 'en'
                         }
@@ -2136,7 +2136,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2156,7 +2156,7 @@ declare global {
                         table: 'sys_index'
                         id: '6568a41b57604538a8d80a0fc13332b3'
                         key: {
-                            logical_table_name: 'x_doom_player'
+                            logical_table_name: 'x_417611_doom_player'
                             col_name_string: 'user'
                         }
                     },
@@ -2164,7 +2164,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '666835cd10f646fba2791fd171f35fc3'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'doomguy_shots'
                         }
                     },
@@ -2172,7 +2172,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '67521578a29c438abf0397142a93d9fa'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'map'
                         }
                     },
@@ -2184,7 +2184,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -2193,7 +2193,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '699608939c754c8395363446dc3e4c4f'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'items'
                             language: 'en'
                         }
@@ -2202,7 +2202,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '69e24797236b4cb9a1ef22f3eb4722e6'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_score'
                             language: 'en'
                         }
@@ -2215,7 +2215,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -2224,7 +2224,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '6be616b6e8294b2a9c33ca550d006adf'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'name'
                             language: 'en'
                         }
@@ -2233,7 +2233,7 @@ declare global {
                         table: 'sys_ui_form'
                         id: '6c1cf358468b4afe8fdba9a6668e3b31'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -2247,7 +2247,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '6cc2d3ed2f854de7a9215a2d3ac0129b'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'par_seconds'
                             language: 'en'
                         }
@@ -2259,7 +2259,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2281,7 +2281,7 @@ declare global {
                             list_id: {
                                 id: '42e781c9bf494b8ca79e8661caed152f'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2301,7 +2301,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '6dbeef8d86d64f03864de9e71e89d68e'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'items_max'
                             language: 'en'
                         }
@@ -2310,7 +2310,7 @@ declare global {
                         table: 'sys_ui_list'
                         id: '6e4b6fac146e41a4afa2cc38adc593fc'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -2330,7 +2330,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -2349,7 +2349,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '6f5959cf4e8a4f1385cf326891a3da29'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'player'
                         }
                     },
@@ -2357,7 +2357,7 @@ declare global {
                         table: 'sys_ui_list'
                         id: '6f6df11da4d844f694d8139d9d335fdb'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -2374,7 +2374,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '6fa1b5f7a40c4341a10a3e1f99bb8f02'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'score'
                         }
                     },
@@ -2382,7 +2382,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '6fc1ff24d2b14b96a4f85bf26324b7ad'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'description'
                             language: 'en'
                         }
@@ -2391,14 +2391,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '70d8fa656dbb499082abeecbde73fc3c'
                         key: {
-                            name: 'x_doom/game-wad'
+                            name: 'x_417611_doom/game-wad'
                         }
                     },
                     {
                         table: 'sys_documentation'
                         id: '726cb3dec5ee49e089908dc4a1889ec5'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'doomguy_steps'
                             language: 'en'
                         }
@@ -2407,7 +2407,7 @@ declare global {
                         table: 'sys_choice_set'
                         id: '729a17e203ce4b01845507aff4d1b889'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                         }
                     },
@@ -2418,7 +2418,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2441,7 +2441,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2460,7 +2460,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '752dbf8e0f5f408eb3670312ec0e6dd3'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'NULL'
                             language: 'en'
                         }
@@ -2472,7 +2472,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2492,7 +2492,7 @@ declare global {
                         table: 'sys_choice'
                         id: '769fecfb1a5a4917b3643303688ec2a0'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'total_secrets'
                             language: 'en'
@@ -2503,7 +2503,7 @@ declare global {
                         table: 'ua_table_licensing_config'
                         id: '7720ac2ed84740f1a7cb9c4b04fa7a39'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                         }
                     },
                     {
@@ -2514,7 +2514,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -2523,7 +2523,7 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '77c26a774c4041489c5fbfef06856a5e'
                         key: {
-                            name: 'x_doom/doom.js.map'
+                            name: 'x_417611_doom/doom.js.map'
                         }
                     },
                     {
@@ -2534,7 +2534,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -2543,7 +2543,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '7aebfef15d454e4ebdcd0a07b9cf4f4d'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'secrets'
                             language: 'en'
                         }
@@ -2555,7 +2555,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2577,7 +2577,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2597,7 +2597,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '7c1b3276d9c7403f97df60352f8cc8f7'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'levels_cleared'
                             language: 'en'
                         }
@@ -2606,7 +2606,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '7e516a12450740baa9814d32ca3577cd'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'achievement'
                         }
                     },
@@ -2614,7 +2614,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '7e6a6dc7fa64481c9085b342849f9bd5'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'name'
                         }
                     },
@@ -2622,7 +2622,7 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: '7f143a5bea73442fa7f9888a52228e6d'
                         key: {
-                            name: 'x_doom/engine-glue.js.map'
+                            name: 'x_417611_doom/engine-glue.js.map'
                         }
                     },
                     {
@@ -2632,7 +2632,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -2651,7 +2651,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '80cecf9964c3465a94cda02d3a852ba1'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'sort_order'
                         }
                     },
@@ -2659,7 +2659,7 @@ declare global {
                         table: 'sys_ui_list'
                         id: '835c9c11ed0e48f6b87928cd6c3cd837'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -2676,7 +2676,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '83d77dafe39642d0bbe88ed7c5cde9f9'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'perfect_levels'
                             language: 'en'
                         }
@@ -2688,7 +2688,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -2707,7 +2707,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '849d6e5a1843437aae21e938799f704a'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                         }
                     },
@@ -2718,7 +2718,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -2740,7 +2740,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -2759,7 +2759,7 @@ declare global {
                         table: 'sys_choice'
                         id: '86127ed9e3f74b49bb2141d8f54ff3b1'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                             value: 'completed'
                             language: 'en'
@@ -2778,7 +2778,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '86a8deeac4eb47ac9b6e002dc96dc57f'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'map'
                             language: 'en'
                         }
@@ -2787,7 +2787,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '871eff199fee4dd48cf59b982e13d233'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'episode'
                         }
                     },
@@ -2795,7 +2795,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '886c5e0ae2fe4c8e91aef7deff8aba3f'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'sort_order'
                             language: 'en'
                         }
@@ -2804,7 +2804,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '8966a3dea5434df0bb32ff0680bc5031'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'kills'
                         }
                     },
@@ -2815,7 +2815,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -2834,7 +2834,7 @@ declare global {
                         table: 'sys_choice'
                         id: '8a26e4131dd4406d9727044bc149c837'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             value: '1'
                             language: 'en'
@@ -2848,7 +2848,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2868,7 +2868,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '8cacefe2dbd74ab5ac2571f2d1e51bc3'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'secrets'
                         }
                     },
@@ -2879,7 +2879,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -2901,7 +2901,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2921,14 +2921,14 @@ declare global {
                         table: 'ua_table_licensing_config'
                         id: '8db49a441a3a417897cd6b84dce375cd'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                         }
                     },
                     {
                         table: 'sys_documentation'
                         id: '8def3b5dc0074712b1074970d9e0aa16'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_items'
                             language: 'en'
                         }
@@ -2940,7 +2940,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -2960,7 +2960,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '8f0da4d533944d698cea6f55357c64a0'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'kills'
                             language: 'en'
                         }
@@ -2973,7 +2973,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -2985,7 +2985,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3008,7 +3008,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3027,7 +3027,7 @@ declare global {
                         table: 'sys_choice'
                         id: '92beae0d2c3c4fbf8f59e7e0a22cbe5c'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             value: '3'
                             language: 'en'
@@ -3038,7 +3038,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '938ad504a58e4e058bc7041843f5904b'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'number'
                             language: 'en'
                         }
@@ -3047,7 +3047,7 @@ declare global {
                         table: 'sys_choice'
                         id: '9446f5d3b7b6476cb4b319703563b90b'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                             value: 'abandoned'
                             language: 'en'
@@ -3058,7 +3058,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '947e695a2e324788a2bf028e58716252'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'doomguy_shots'
                             language: 'en'
                         }
@@ -3070,7 +3070,7 @@ declare global {
                             sys_ui_form: {
                                 id: '6c1cf358468b4afe8fdba9a6668e3b31'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3083,7 +3083,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3103,7 +3103,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3123,7 +3123,7 @@ declare global {
                         table: 'sys_documentation'
                         id: '977a7c1a47da4c98aba94ea7bb7f8767'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'time_seconds'
                             language: 'en'
                         }
@@ -3132,7 +3132,7 @@ declare global {
                         table: 'sys_ui_form'
                         id: '9921e6f40acc453c96aaa92375f5725d'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -3149,7 +3149,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3168,7 +3168,7 @@ declare global {
                         table: 'sys_ui_section'
                         id: '99cf9ee004be4564a5554887a4433907'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             caption: 'Earned'
                             view: {
                                 id: 'Default view'
@@ -3183,7 +3183,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: '9a93a1d7af454030973a10d34f973fea'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'started_at'
                         }
                     },
@@ -3191,7 +3191,7 @@ declare global {
                         table: 'sys_choice'
                         id: '9af0ba3ec3ac4ce4a7ebde90b86ffe58'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'par_beaten'
                             language: 'en'
@@ -3205,7 +3205,7 @@ declare global {
                             sys_ui_form: {
                                 id: 'ecb8276a7c89414b83d3eacc47326110'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3218,7 +3218,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -3238,7 +3238,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3257,7 +3257,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'a002495e591f499995e5efef33a63b3a'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'callsign'
                             language: 'en'
                         }
@@ -3266,7 +3266,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'a00b93a4c62e4db5ab446734045ba63b'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'playtime_seconds'
                             language: 'en'
                         }
@@ -3275,7 +3275,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'a1311f0604de4ba3a8d94c8c383cb6f6'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'doomguy_steps'
                             language: 'en'
@@ -3286,7 +3286,7 @@ declare global {
                         table: 'sys_ui_list'
                         id: 'a3649b96dfe64925a37639b7f3484042'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -3306,7 +3306,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -3328,7 +3328,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -3347,14 +3347,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: 'a5668f19cc534669a92fdde27fedfef4'
                         key: {
-                            name: 'x_doom/game-wad.js.map'
+                            name: 'x_417611_doom/game-wad.js.map'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: 'a75b1001fed549d28ec7af2f34637101'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_kills'
                         }
                     },
@@ -3362,14 +3362,14 @@ declare global {
                         table: 'ua_table_licensing_config'
                         id: 'a7da8e9d8821483aae2c275f56b2db78'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                         }
                     },
                     {
                         table: 'sys_documentation'
                         id: 'a88fc23c536a47f986110ab0e6171c70'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'NULL'
                             language: 'en'
                         }
@@ -3378,7 +3378,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'a95d06814f334cbfab2f65e408d8692e'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'NULL'
                         }
                     },
@@ -3386,7 +3386,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'a983eae9deee49c78ccdd443a9ee207b'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'total_kills'
                             language: 'en'
@@ -3400,7 +3400,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -3422,7 +3422,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3445,7 +3445,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -3464,7 +3464,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'abe0a9ba8df64ec9b0c84ec98fd2a61c'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'secrets_max'
                             language: 'en'
                         }
@@ -3473,7 +3473,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'ac639ca52e6d4e49948a4c7ffe99e0f1'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'NULL'
                         }
                     },
@@ -3484,7 +3484,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3503,7 +3503,7 @@ declare global {
                         table: 'sys_ui_form'
                         id: 'ad00a925753844dab37036b5b8071bc0'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -3517,7 +3517,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'aeb5d377a6f240dcb0692011bad238e3'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity'
                             language: 'en'
                         }
@@ -3529,7 +3529,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -3551,7 +3551,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -3573,7 +3573,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3595,7 +3595,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3617,7 +3617,7 @@ declare global {
                             sys_ui_form: {
                                 id: '0d6f07de4f7748bc9ef562116f176717'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3630,7 +3630,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -3650,7 +3650,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3669,7 +3669,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'b23e0e77bba34952b5cb4297d0ae80f4'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'user'
                         }
                     },
@@ -3680,7 +3680,7 @@ declare global {
                             list_id: {
                                 id: '42e781c9bf494b8ca79e8661caed152f'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3700,7 +3700,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'b55e056f6a7e4498a9a6d16a0749df25'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'run'
                             language: 'en'
                         }
@@ -3709,7 +3709,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'b70dd72af4d345459cf58c9fe71d94e0'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'items'
                             language: 'en'
                         }
@@ -3718,7 +3718,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'b7fc921d9f2d42008798752288953891'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'number'
                         }
                     },
@@ -3726,7 +3726,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'b8263a09ec8e449f82cfdfe163b110d5'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_score'
                         }
                     },
@@ -3737,7 +3737,7 @@ declare global {
                             sys_ui_form: {
                                 id: 'ad00a925753844dab37036b5b8071bc0'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3750,7 +3750,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3767,7 +3767,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'b8effa6949d54fbea8b9e00a8892f158'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'active'
                             language: 'en'
                         }
@@ -3779,7 +3779,7 @@ declare global {
                             list_id: {
                                 id: 'a3649b96dfe64925a37639b7f3484042'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3799,7 +3799,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'bae6f6d0f534437d8a76add0bd1f85c5'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'active'
                         }
                     },
@@ -3807,7 +3807,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'bb6e0efb6f3b40499b072a275d9acb74'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'code'
                         }
                     },
@@ -3818,7 +3818,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3841,7 +3841,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -3863,7 +3863,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3882,7 +3882,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'c1cafea216ad4237b8e8e812afc50514'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'doomguy_shots'
                             language: 'en'
@@ -3896,7 +3896,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3918,7 +3918,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -3941,7 +3941,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -3953,7 +3953,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3976,7 +3976,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -3996,14 +3996,14 @@ declare global {
                         table: 'ua_table_licensing_config'
                         id: 'c6eaa9e7d417496fa11a9f07b23f2212'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                         }
                     },
                     {
                         table: 'sys_documentation'
                         id: 'c713588b7adf484fa594d6b951454bdd'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'threshold'
                             language: 'en'
                         }
@@ -4015,7 +4015,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4034,7 +4034,7 @@ declare global {
                         table: 'sys_db_object'
                         id: 'c9971a1d74ec4ad3a9e9c81f495fa3af'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                         }
                     },
                     {
@@ -4044,7 +4044,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -4066,7 +4066,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -4088,7 +4088,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4108,7 +4108,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'd0226dbde7e0456c8935ac33deb098d3'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'episode'
                             language: 'en'
                         }
@@ -4121,7 +4121,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -4130,7 +4130,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'd297e8e98918405aa3e9a3ac9f7b1f63'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                             value: '5'
                             language: 'en'
@@ -4141,7 +4141,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'd2cd864320fe4c1c8e8c7fd0995502ce'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                             value: 'rejected'
                             language: 'en'
@@ -4152,7 +4152,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'd3f67a5091454160a4e753542d960b4e'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'state'
                             value: 'playing'
                             language: 'en'
@@ -4163,21 +4163,21 @@ declare global {
                         table: 'sys_user_role'
                         id: 'd428eb4db20c442db8284dee45028c68'
                         key: {
-                            name: 'x_doom.admin'
+                            name: 'x_417611_doom.admin'
                         }
                     },
                     {
                         table: 'sys_db_object'
                         id: 'd517353438964816b092d0b5ea0683ba'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                         }
                     },
                     {
                         table: 'sys_choice'
                         id: 'd584b8289f8543f5b7143931450e7461'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'runs_completed'
                             language: 'en'
@@ -4191,7 +4191,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4211,7 +4211,7 @@ declare global {
                         table: 'sys_choice'
                         id: 'd6bd062d862749639218413a5692492c'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             value: 'perfect_levels'
                             language: 'en'
@@ -4222,21 +4222,21 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: 'd7d5f17a63b640ba86f412270d697646'
                         key: {
-                            name: 'x_doom/game-cfg'
+                            name: 'x_417611_doom/game-cfg'
                         }
                     },
                     {
                         table: 'sys_ui_page'
                         id: 'd7fb3617fa444b169e00b3978de7ae6f'
                         key: {
-                            endpoint: 'x_doom_play.do'
+                            endpoint: 'x_417611_doom_play.do'
                         }
                     },
                     {
                         table: 'sys_documentation'
                         id: 'd8ad56c8e90b45ce8eff7fe2208fc17b'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'runs_completed'
                             language: 'en'
                         }
@@ -4245,7 +4245,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'd8e74c552bee4611bbe7b8ed1236006f'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'run'
                         }
                     },
@@ -4256,7 +4256,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -4278,7 +4278,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4306,14 +4306,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: 'dbaf0f0bd17d468e92eacf98f188652d'
                         key: {
-                            name: 'x_doom/engine-glue'
+                            name: 'x_417611_doom/engine-glue'
                         }
                     },
                     {
                         table: 'sys_dictionary'
                         id: 'dcdd489589d14b6d9037bbdbf6822cd3'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'items_max'
                         }
                     },
@@ -4324,7 +4324,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4347,7 +4347,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4366,7 +4366,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'dd64d097f9744c61b383f3a065a6a634'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'last_played'
                         }
                     },
@@ -4382,7 +4382,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'deba0520cde14819830e768088778fcd'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'NULL'
                         }
                     },
@@ -4393,7 +4393,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4415,7 +4415,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4434,7 +4434,7 @@ declare global {
                         table: 'sys_choice_set'
                         id: 'e2333bc0f43243dcb13bf35f00b8aa04'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'skill'
                         }
                     },
@@ -4442,7 +4442,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'e3878dc03e58456da986af9d1157a206'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'metric'
                             language: 'en'
                         }
@@ -4451,7 +4451,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'e406ecd89036438daa997f90bbd88f4a'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             element: 'player'
                         }
                     },
@@ -4459,7 +4459,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'e41aee6720d54042ac3cd5b9a5a50c94'
                         key: {
-                            name: 'x_doom_achievement'
+                            name: 'x_417611_doom_achievement'
                             element: 'description'
                         }
                     },
@@ -4467,7 +4467,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'e5344a0fa6f34072b92ca0075ad1dbe9'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'score'
                             language: 'en'
                         }
@@ -4479,7 +4479,7 @@ declare global {
                             list_id: {
                                 id: '6e4b6fac146e41a4afa2cc38adc593fc'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4502,7 +4502,7 @@ declare global {
                             sys_ui_section: {
                                 id: '99cf9ee004be4564a5554887a4433907'
                                 key: {
-                                    name: 'x_doom_player_achievement'
+                                    name: 'x_417611_doom_player_achievement'
                                     caption: 'Earned'
                                     view: {
                                         id: 'Default view'
@@ -4521,7 +4521,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'e658750fbe884be5a2e13c5dde12053d'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'integrity_notes'
                         }
                     },
@@ -4532,7 +4532,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'
@@ -4551,7 +4551,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'e8c16a8d7ce044c1a013f02f10b34b08'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'callsign'
                         }
                     },
@@ -4562,7 +4562,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -4584,7 +4584,7 @@ declare global {
                             sys_ui_section: {
                                 id: 'f12b2eeffde34528b26c2caf273c3b72'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     caption: 'Level'
                                     view: {
                                         id: 'Default view'
@@ -4603,7 +4603,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'ebf518a7bf7b430eb5076cb968780d97'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'kills'
                         }
                     },
@@ -4611,7 +4611,7 @@ declare global {
                         table: 'sys_ui_form'
                         id: 'ecb8276a7c89414b83d3eacc47326110'
                         key: {
-                            name: 'x_doom_player_achievement'
+                            name: 'x_417611_doom_player_achievement'
                             view: {
                                 id: 'Default view'
                                 key: {
@@ -4628,7 +4628,7 @@ declare global {
                             sys_ui_section: {
                                 id: '12513c32c33b411dae4234e12d0c04ed'
                                 key: {
-                                    name: 'x_doom_run'
+                                    name: 'x_417611_doom_run'
                                     caption: 'Run'
                                     view: {
                                         id: 'Default view'
@@ -4647,7 +4647,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'efe0a6270371468f9f0c70f337900332'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'par_seconds'
                         }
                     },
@@ -4658,7 +4658,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4677,14 +4677,14 @@ declare global {
                         table: 'sys_ux_lib_asset'
                         id: 'f0cfff4be7054fa9ae157e81fd52d862'
                         key: {
-                            name: 'x_doom/doomguy'
+                            name: 'x_417611_doom/doomguy'
                         }
                     },
                     {
                         table: 'sys_ui_section'
                         id: 'f12b2eeffde34528b26c2caf273c3b72'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             caption: 'Level'
                             view: {
                                 id: 'Default view'
@@ -4702,7 +4702,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4725,7 +4725,7 @@ declare global {
                             list_id: {
                                 id: '6f6df11da4d844f694d8139d9d335fdb'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4756,7 +4756,7 @@ declare global {
                             list_id: {
                                 id: '835c9c11ed0e48f6b87928cd6c3cd837'
                                 key: {
-                                    name: 'x_doom_level_stat'
+                                    name: 'x_417611_doom_level_stat'
                                     view: {
                                         id: 'Default view'
                                         key: {
@@ -4780,7 +4780,7 @@ declare global {
                             sys_user_role: {
                                 id: 'd428eb4db20c442db8284dee45028c68'
                                 key: {
-                                    name: 'x_doom.admin'
+                                    name: 'x_417611_doom.admin'
                                 }
                             }
                         }
@@ -4789,7 +4789,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'fab860d83846415fb12cf730205fd577'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'doomguy_steps'
                         }
                     },
@@ -4797,7 +4797,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'fb1d18e2a4a241579ceb122ece97a5b5'
                         key: {
-                            name: 'x_doom_run'
+                            name: 'x_417611_doom_run'
                             element: 'started_at'
                             language: 'en'
                         }
@@ -4809,7 +4809,7 @@ declare global {
                             sys_ui_section: {
                                 id: '0a24cd8f3105490d8468d377a7e29d7e'
                                 key: {
-                                    name: 'x_doom_player'
+                                    name: 'x_417611_doom_player'
                                     caption: 'Marine'
                                     view: {
                                         id: 'Default view'
@@ -4828,7 +4828,7 @@ declare global {
                         table: 'sys_documentation'
                         id: 'fddab97557454353b636df3db047f27e'
                         key: {
-                            name: 'x_doom_level_stat'
+                            name: 'x_417611_doom_level_stat'
                             element: 'kills_max'
                             language: 'en'
                         }
@@ -4837,7 +4837,7 @@ declare global {
                         table: 'sys_dictionary'
                         id: 'fe79300103f94847b0f4f2ccfa862228'
                         key: {
-                            name: 'x_doom_player'
+                            name: 'x_417611_doom_player'
                             element: 'total_secrets'
                         }
                     },
@@ -4848,7 +4848,7 @@ declare global {
                             sys_ui_section: {
                                 id: '385c12f6c0e64771bce01c8f487dd8ed'
                                 key: {
-                                    name: 'x_doom_achievement'
+                                    name: 'x_417611_doom_achievement'
                                     caption: 'Achievement'
                                     view: {
                                         id: 'Default view'

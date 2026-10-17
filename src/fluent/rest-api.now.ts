@@ -10,7 +10,7 @@ import {
     startRun,
 } from '../server/doom/api'
 
-// Base URL: /api/x_doom/doom
+// Base URL: /api/x_417611_doom/doom
 RestApi({
     $id: Now.ID['rest-doom'],
     name: 'Doom',

@@ -4,8 +4,8 @@ import { Table, StringColumn, IntegerColumn, ChoiceColumn, BooleanColumn } from 
  * Admin-maintained achievement definitions. An achievement is earned when the player's value for
  * `metric` reaches `threshold`; add rows to introduce new ones without touching code.
  */
-export const x_doom_achievement = Table({
-    name: 'x_doom_achievement',
+export const x_417611_doom_achievement = Table({
+    name: 'x_417611_doom_achievement',
     label: 'Doom Achievement',
     display: 'name',
     allowWebServiceAccess: true,

@@ -1,10 +1,10 @@
 import { Record } from '@servicenow/sdk/core'
 
-// Starter achievements. Admins can add, tune or retire them in the x_doom_achievement table.
+// Starter achievements. Admins can add, tune or retire them in the x_417611_doom_achievement table.
 
 Record({
     $id: Now.ID['ach-first-blood'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'first_blood',
         name: 'First Blood',
@@ -18,7 +18,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-hangar'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'hangar_cleared',
         name: 'Hangar Cleared',
@@ -32,7 +32,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-rip-tear'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'rip_and_tear',
         name: 'Rip and Tear',
@@ -46,7 +46,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-perfectionist'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'perfectionist',
         name: 'Perfectionist',
@@ -60,7 +60,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-speed-demon'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'speed_demon',
         name: 'Speed Demon',
@@ -74,7 +74,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-secret-agent'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'secret_agent',
         name: 'Secret Agent',
@@ -88,7 +88,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-five-figures'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'five_figures',
         name: 'Five Figures',
@@ -102,7 +102,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-slayer'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'doom_slayer',
         name: 'Doom Slayer',
@@ -116,7 +116,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-marathon'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'marathon_marine',
         name: 'Marathon Marine',
@@ -130,7 +130,7 @@ Record({
 
 Record({
     $id: Now.ID['ach-trigger'],
-    table: 'x_doom_achievement',
+    table: 'x_417611_doom_achievement',
     data: {
         code: 'trigger_happy',
         name: 'Trigger Happy',

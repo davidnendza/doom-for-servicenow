@@ -3,7 +3,7 @@ import { admin } from './roles.now'
 
 Property({
     $id: Now.ID['prop-reject-suspect'],
-    name: 'x_doom.reject_suspect_runs',
+    name: 'x_417611_doom.reject_suspect_runs',
     type: 'boolean',
     value: true,
     description:
@@ -13,7 +13,7 @@ Property({
 
 Property({
     $id: Now.ID['prop-min-level-seconds'],
-    name: 'x_doom.min_level_seconds',
+    name: 'x_417611_doom.min_level_seconds',
     type: 'integer',
     value: 8,
     description: 'Fastest plausible time, in seconds, to finish a level. Anything quicker marks the run suspect.',
@@ -22,7 +22,7 @@ Property({
 
 Property({
     $id: Now.ID['prop-doomguy-default'],
-    name: 'x_doom.doomguy.default_enabled',
+    name: 'x_417611_doom.doomguy.default_enabled',
     type: 'boolean',
     value: false,
     description: 'Whether Doomguy starts switched on for users who have never toggled him.',
