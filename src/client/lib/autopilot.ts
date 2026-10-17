@@ -15,7 +15,7 @@ export interface Bounds {
 
 export interface AutoTarget {
     id: string
-    kind: 'monster' | 'element'
+    kind: 'monster' | 'element' | 'pickup'
     /** Where it is right now (the marine's feet are at `y`, so aim a little above for monsters). */
     position(): Point
     alive(): boolean
@@ -33,7 +33,7 @@ export interface Intent {
 
 type State = 'idle' | 'wander' | 'approach' | 'attack'
 
-/** How close the marine stands to what he is shooting, in px. */
+/** Default distance the marine stands from what he is shooting, in px (each weapon has its own). */
 const STAND_OFF = 190
 const ARRIVE = 16
 /** A monster this close (px) interrupts whatever the marine was doing. */
@@ -50,6 +50,7 @@ export class Autopilot {
     private target: AutoTarget | null = null
     private attackEnds = 0
     private readonly rng: () => number
+    private standOff = STAND_OFF
 
     constructor(rng: () => number = Math.random) {
         this.rng = rng
@@ -67,7 +68,8 @@ export class Autopilot {
         this.until = now + 400
     }
 
-    update(now: number, pos: Point, targets: AutoTarget[], bounds: Bounds): Intent {
+    update(now: number, pos: Point, targets: AutoTarget[], bounds: Bounds, standOff: number = STAND_OFF): Intent {
+        this.standOff = standOff
         if (this.target && !this.target.alive()) {
             this.target = null
             this.state = 'idle'
@@ -80,6 +82,12 @@ export class Autopilot {
             if (monster && (this.state === 'idle' || this.state === 'wander' || this.target)) {
                 this.startApproach(monster, now)
             }
+        }
+
+        // Then loot: a weapon on the floor beats blasting links.
+        if (!this.target || this.target.kind === 'element') {
+            const loot = this.nearest(pos, targets.filter((t) => t.kind === 'pickup'), 1500)
+            if (loot && (this.state === 'idle' || this.state === 'wander' || this.target)) this.startApproach(loot, now)
         }
 
         switch (this.state) {
@@ -132,15 +140,25 @@ export class Autopilot {
         }
         const where = target.position()
         const dist = Math.hypot(where.x - pos.x, where.y - pos.y)
-        if (dist <= STAND_OFF + 40) {
+        if (target.kind === 'pickup') {
+            // Walk right onto it; the game picks it up and the target stops being alive.
+            if (dist < ARRIVE) {
+                this.target = null
+                this.state = 'idle'
+                this.until = now + 300
+                return NO_INTENT
+            }
+            return this.walkTo(where, pos, dist > 300, null, bounds)
+        }
+        if (dist <= this.standOff + 40) {
             this.state = 'attack'
             this.attackEnds = now + (target.kind === 'monster' ? 9000 : this.between(2200, 4200))
             return NO_INTENT
         }
         // Walk to a spot STAND_OFF away from it, on our side.
         const stand = {
-            x: clamp(where.x - ((where.x - pos.x) / dist) * STAND_OFF, bounds.minX, bounds.maxX),
-            y: clamp(where.y - ((where.y - pos.y) / dist) * STAND_OFF, bounds.minY, bounds.maxY),
+            x: clamp(where.x - ((where.x - pos.x) / dist) * this.standOff, bounds.minX, bounds.maxX),
+            y: clamp(where.y - ((where.y - pos.y) / dist) * this.standOff, bounds.minY, bounds.maxY),
         }
         return this.walkTo(stand, pos, dist > 500, where, bounds)
     }
@@ -154,7 +172,7 @@ export class Autopilot {
             return NO_INTENT
         }
         const where = target.position()
-        if (Math.hypot(where.x - pos.x, where.y - pos.y) > STAND_OFF + 160) {
+        if (Math.hypot(where.x - pos.x, where.y - pos.y) > this.standOff + 160) {
             this.state = 'approach'
             return NO_INTENT
         }

@@ -2,8 +2,9 @@
 // that shuffle around the marine, snarl, and die when shot. They never hurt anything.
 import type { AutoTarget, Bounds, Point } from './autopilot'
 import type { Sprite } from './wad'
+import type { WeaponId } from './weapons'
 
-export type MonsterKind = 'imp' | 'zombie'
+export type MonsterKind = 'imp' | 'zombie' | 'shotgunner' | 'demon' | 'baron'
 type State = 'walk' | 'attack' | 'pain' | 'dying' | 'dead'
 
 interface Spec {
@@ -17,11 +18,18 @@ interface Spec {
     speed: number
     sight: string
     dies: string
+    /** Chance (0..1) of leaving this weapon behind when it dies. */
+    drop?: { weapon: WeaponId; chance: number }
+    /** Relative likelihood of being the next one to show up. */
+    weight: number
 }
 
 export const SPECS: Record<MonsterKind, Spec> = {
-    imp: { prefix: 'TROO', walk: 'ABCD', attack: 'EFG', pain: 'H', death: 'IJKLM', gib: 'NOPQRSTU', hp: 3, speed: 70, sight: 'impSight', dies: 'impDeath' },
-    zombie: { prefix: 'POSS', walk: 'ABCD', attack: 'EF', pain: 'G', death: 'HIJKL', gib: 'MNOPQRSTU', hp: 2, speed: 55, sight: 'zombieSight', dies: 'zombieDeath' },
+    imp: { prefix: 'TROO', walk: 'ABCD', attack: 'EFG', pain: 'H', death: 'IJKLM', gib: 'NOPQRSTU', hp: 3, speed: 70, sight: 'impSight', dies: 'impDeath', weight: 30 },
+    zombie: { prefix: 'POSS', walk: 'ABCD', attack: 'EF', pain: 'G', death: 'HIJKL', gib: 'MNOPQRSTU', hp: 2, speed: 55, sight: 'zombieSight', dies: 'zombieDeath', drop: { weapon: 'chaingun', chance: 0.15 }, weight: 28 },
+    shotgunner: { prefix: 'SPOS', walk: 'ABCD', attack: 'EF', pain: 'G', death: 'HIJKL', gib: 'MNOPQRSTU', hp: 3, speed: 60, sight: 'shotgunnerSight', dies: 'shotgunnerDeath', drop: { weapon: 'shotgun', chance: 0.9 }, weight: 22 },
+    demon: { prefix: 'SARG', walk: 'ABCD', attack: 'EFG', pain: 'H', death: 'IJKLMN', gib: 'IJKLMN', hp: 6, speed: 120, sight: 'demonSight', dies: 'demonDeath', drop: { weapon: 'chainsaw', chance: 0.3 }, weight: 14 },
+    baron: { prefix: 'BOSS', walk: 'ABCD', attack: 'EFG', pain: 'H', death: 'IJKLMNO', gib: 'IJKLMNO', hp: 16, speed: 50, sight: 'baronSight', dies: 'baronDeath', drop: { weapon: 'rocket', chance: 1 }, weight: 4 },
 }
 
 export interface Monster {
@@ -42,7 +50,7 @@ export interface Monster {
 
 export type HitResult = 'pain' | 'killed' | 'gibbed'
 
-const MAX_MONSTERS = 2
+const MAX_MONSTERS = 3
 const CORPSE_MS = 7000
 const FADE_MS = 1500
 const BODY_HEIGHT = 40
@@ -71,7 +79,7 @@ export class Monsters {
     }
 
     spawn(bounds: Bounds, now: number): Monster {
-        const kind: MonsterKind = this.rng() < 0.6 ? 'imp' : 'zombie'
+        const kind = this.pickKind()
         const fromLeft = this.rng() < 0.5
         const x = fromLeft ? bounds.minX + 40 : bounds.maxX - 40
         const y = bounds.minY + this.rng() * (bounds.maxY - bounds.minY)
@@ -102,6 +110,23 @@ export class Monsters {
 
     targets(): AutoTarget[] {
         return this.alive.map((m) => m.target)
+    }
+
+    /** Living monsters within a circle (blast damage). */
+    inRadius(center: Point, radius: number): Monster[] {
+        return this.alive.filter((m) => Math.hypot(m.x - center.x, m.y - BODY_HEIGHT - center.y) <= radius)
+    }
+
+    private pickKind(): MonsterKind {
+        // One baron at a time is plenty.
+        const kinds = (Object.keys(SPECS) as MonsterKind[]).filter((k) => k !== 'baron' || !this.alive.some((m) => m.kind === 'baron'))
+        const total = kinds.reduce((sum, k) => sum + SPECS[k].weight, 0)
+        let roll = this.rng() * total
+        for (const k of kinds) {
+            roll -= SPECS[k].weight
+            if (roll <= 0) return k
+        }
+        return kinds[0]!
     }
 
     clear(): void {
@@ -152,14 +177,14 @@ export class Monsters {
         }
     }
 
-    /** Shot at: returns what happened so the caller can play sounds. */
-    hit(m: Monster, now: number): HitResult {
-        m.hp -= 1
+    /** Shot at: returns what happened so the caller can play sounds. Big overkill (or `gib`) splatters it. */
+    hit(m: Monster, now: number, damage = 1, gib = false): HitResult {
+        m.hp -= damage
         if (m.hp > 0) {
             this.setState(m, 'pain', now)
             return 'pain'
         }
-        m.gibbed = this.rng() < 0.25
+        m.gibbed = gib || m.hp <= -Math.ceil(SPECS[m.kind].hp / 2) || this.rng() < 0.2
         this.setState(m, 'dying', now)
         return m.gibbed ? 'gibbed' : 'killed'
     }

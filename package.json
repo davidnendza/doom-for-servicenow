@@ -15,7 +15,7 @@
         "prebuild": "npm run assets",
         "dev": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./dev/register.mjs dev/server.mjs",
         "test:server": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./dev/register.mjs --test dev/test-server.mjs",
-        "test:client": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test dev/test-client.mjs dev/test-autopilot.mjs",
+        "test:client": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test dev/test-client.mjs dev/test-autopilot.mjs dev/test-weapons.mjs",
         "test": "npm run test:client && npm run test:server"
     },
     "devDependencies": {

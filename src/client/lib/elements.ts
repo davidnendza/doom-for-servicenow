@@ -4,6 +4,7 @@
 // is clicked, edited, removed or sent anywhere), and it comes back by itself after RESPAWN_MS, or at
 // once when Doomguy is dismissed. A page reload also brings everything back.
 import type { AutoTarget, Point } from './autopilot'
+import { ELEMENT_HP } from './weapons'
 
 export interface Box {
     x: number
@@ -33,12 +34,11 @@ interface Destroyed {
 
 const CANDIDATES = 'a.linked, a.formlink, a[href*="sys_id="], a[href*="sys_id%3D"]'
 const MAX_TARGETS = 80
-const HP = 2
 export const RESPAWN_MS = 30000
 const CACHE_MS = 120
 
 /** Where a frame's top-left corner sits in the top window, or null when it can't be worked out. */
-function frameOffset(win: Window, host: Window): Point | null {
+export function frameOffset(win: Window, host: Window): Point | null {
     let x = 0
     let y = 0
     let current: Window = win
@@ -115,9 +115,9 @@ export class ElementTargets {
         return box
     }
 
-    /** Applies one hit. Returns where it blew up (and what it said) when this hit destroyed it. */
-    damage(entry: ElementEntry, now: number): { center: Point; text: string; color: string } | null {
-        entry.hp -= 1
+    /** Applies a hit. Returns where it blew up (and what it said) when this hit destroyed it. */
+    damage(entry: ElementEntry, now: number, amount = 1): { center: Point; text: string; color: string } | null {
+        entry.hp -= amount
         if (entry.hp > 0) return null
         const box = this.box(entry, now) ?? entry.cache?.box ?? null
         const center = box ? { x: box.x + box.w / 2, y: box.y + box.h / 2 } : { x: 0, y: 0 }
@@ -139,6 +139,19 @@ export class ElementTargets {
         this.dead.add(entry.el)
         this.entries.delete(entry.el)
         return { center, text: entry.text, color }
+    }
+
+    /** Every live element whose box touches a circle (used for blast damage). */
+    inRadius(center: Point, radius: number, now: number): ElementEntry[] {
+        const hit: ElementEntry[] = []
+        for (const entry of this.entries.values()) {
+            const box = this.box(entry, now)
+            if (!box) continue
+            const nearestX = Math.min(box.x + box.w, Math.max(box.x, center.x))
+            const nearestY = Math.min(box.y + box.h, Math.max(box.y, center.y))
+            if (Math.hypot(nearestX - center.x, nearestY - center.y) <= radius) hit.push(entry)
+        }
+        return hit
     }
 
     /** Brings back whatever has been gone long enough. Returns where each one reappeared. */
@@ -175,7 +188,7 @@ export class ElementTargets {
             el,
             win,
             text: (el.textContent ?? '').trim(),
-            hp: HP,
+            hp: ELEMENT_HP,
             cache: { at: now, box },
             target: undefined as unknown as AutoTarget,
         }

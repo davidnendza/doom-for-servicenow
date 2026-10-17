@@ -7,8 +7,11 @@
 import { gunzipB64 } from './lib/b64'
 import { getDoomguy, sendDoomguyTelemetry, setDoomguy, setDoomguyMode, setTokenProvider, type DoomguyMode } from './lib/api'
 import { Autopilot, type AutoTarget, type Intent, type Point } from './lib/autopilot'
+import { Decals, type DecalKind } from './lib/decals'
 import { ElementTargets, rayBox, type ElementEntry } from './lib/elements'
 import { Monsters, SPECS, type Monster, type MonsterKind } from './lib/monsters'
+import { Pickups } from './lib/pickups'
+import { chooseWeapon, DROPPABLE, pelletAngles, WEAPONS, type WeaponId, type WeaponSpec } from './lib/weapons'
 import { initSettingsPage } from './lib/settings-page'
 import { decodeSound, loadSpriteSet, Wad, type Sound, type Sprite } from './lib/wad'
 
@@ -28,6 +31,10 @@ const STEP_PX = 40
 const TELEMETRY_MS = 20000
 const SCAN_MS = 600
 const FIRST_MONSTER_MS = 3500
+const FIRST_DROP_MS = 9000
+const ROCKET_SPEED = 720
+const MAX_PARTICLES = 420
+const HUD_MS = 2600
 const GRAVITY = 900
 const DEATH_FRAMES = 'HIJKLMN'
 /** Screen sector (0 = right, then clockwise in 45 degree steps) to the sprite rotation facing that way. */
@@ -39,6 +46,8 @@ interface Assets {
     puff: Map<string, Sprite>
     fog: Map<string, Sprite>
     explosion: Map<string, Sprite>
+    rocket: Map<string, Sprite>
+    pickups: Partial<Record<WeaponId, Sprite>>
     monsters: Partial<Record<MonsterKind, Map<string, Sprite>>>
     sounds: Record<string, Sound>
 }
@@ -50,6 +59,16 @@ interface Effect {
     start: number
     frameMs: number
     scale?: number
+}
+
+/** A rocket in flight; it explodes where it arrives. */
+interface Projectile {
+    x: number
+    y: number
+    dx: number
+    dy: number
+    remaining: number
+    sector: number
 }
 
 /** A flying scrap of a blasted element: one of its letters, or a spark. */
@@ -149,6 +168,18 @@ async function loadAssets(): Promise<Assets> {
         impDeath: 'DSBGDTH1',
         zombieSight: 'DSPOSIT1',
         zombieDeath: 'DSPODTH1',
+        shotgunnerSight: 'DSPOSIT2',
+        shotgunnerDeath: 'DSPODTH2',
+        demonSight: 'DSSGTSIT',
+        demonDeath: 'DSSGTDTH',
+        baronSight: 'DSBRSSIT',
+        baronDeath: 'DSBRSDTH',
+        shotgun: 'DSSHOTGN',
+        rocket: 'DSRLAUNC',
+        boom: 'DSRXPLOD',
+        sawhit: 'DSSAWHIT',
+        wpnup: 'DSWPNUP',
+        item: 'DSITEMUP',
     })) {
         const data = wad.get(lump)
         const sound = data && decodeSound(data)
@@ -159,10 +190,15 @@ async function loadAssets(): Promise<Assets> {
         puff: loadSpriteSet(wad, 'PUFF', palette),
         fog: loadSpriteSet(wad, 'TFOG', palette),
         explosion: loadSpriteSet(wad, 'BEXP', palette),
-        monsters: {
-            imp: loadSpriteSet(wad, SPECS.imp.prefix, palette),
-            zombie: loadSpriteSet(wad, SPECS.zombie.prefix, palette),
-        },
+        rocket: loadSpriteSet(wad, 'MISL', palette),
+        pickups: Object.fromEntries(
+            Object.values(WEAPONS)
+                .filter((w) => w.pickup)
+                .map((w) => [w.id, loadSpriteSet(wad, w.pickup!, palette).get('A0')])
+        ),
+        monsters: Object.fromEntries(
+            (Object.keys(SPECS) as MonsterKind[]).map((kind) => [kind, loadSpriteSet(wad, SPECS[kind].prefix, palette)])
+        ),
         sounds,
     }
 }
@@ -207,6 +243,14 @@ class Doomguy implements DoomguyController {
     private nextSpawn = 0
     private totalKills = 0
     private totalBlasts = 0
+    private readonly decals = new Decals(host)
+    private readonly pickups = new Pickups()
+    private projectiles: Projectile[] = []
+    private weapon: WeaponId = 'pistol'
+    private ammo: Partial<Record<WeaponId, number>> = {}
+    private hudText = ''
+    private hudUntil = 0
+    private nextDrop = 0
 
     private stepFraction = 0
     private pendingSteps = 0
@@ -330,6 +374,9 @@ class Doomguy implements DoomguyController {
         this.lastTime = performance.now()
         this.autopilot.reset(this.lastTime)
         this.nextSpawn = this.lastTime + FIRST_MONSTER_MS
+        this.nextDrop = this.lastTime + FIRST_DROP_MS
+        this.weapon = 'pistol'
+        this.ammo = {}
         this.nextScan = 0
         host.requestAnimationFrame(this.tick)
         this.telemetryTimer ??= host.setInterval(() => this.flushTelemetry(false), TELEMETRY_MS)
@@ -341,6 +388,9 @@ class Doomguy implements DoomguyController {
         this.flushTelemetry(false)
         this.elements.restoreAll()
         this.monsters.clear()
+        this.pickups.clear()
+        this.decals.clear()
+        this.projectiles = []
         this.particles = []
         this.setPhase('dying')
         this.play('death')
@@ -389,6 +439,7 @@ class Doomguy implements DoomguyController {
         this.effects = []
         this.tracers = []
         this.particles = []
+        this.projectiles = []
         this.setPhase('hidden')
     }
 
@@ -505,7 +556,7 @@ class Doomguy implements DoomguyController {
             this.autopilot.reset(now) // let go cleanly; it picks something new when the keys are released
             return manual
         }
-        return this.autopilot.update(now, { x: this.x, y: this.y }, this.autoTargets(), this.bounds())
+        return this.autopilot.update(now, { x: this.x, y: this.y }, this.autoTargets(), this.bounds(), this.spec().standOff)
     }
 
     private bounds(): { minX: number; maxX: number; minY: number; maxY: number } {
@@ -519,7 +570,7 @@ class Doomguy implements DoomguyController {
     }
 
     private autoTargets(): AutoTarget[] {
-        return [...this.monsters.targets(), ...this.elements.list().map((e) => e.target)]
+        return [...this.monsters.targets(), ...this.pickups.targets(), ...this.elements.list().map((e) => e.target)]
     }
 
     // ---- the world around him: things to shoot, things that fall apart --------------------------
@@ -539,8 +590,31 @@ class Doomguy implements DoomguyController {
                 this.nextSpawn = now + 7000 + Math.random() * 8000
             }
             this.monsters.update(now, dt, { x: this.x, y: this.y }, this.bounds())
+            if (now >= this.nextDrop && this.pickups.canSpawn()) this.airdrop(now)
         }
+
+        // Walking over a weapon picks it up.
+        const grabbed = this.pickups.take({ x: this.x, y: this.y })
+        if (grabbed) this.pickUp(grabbed.weapon, now)
+        this.pickups.update(now)
+
+        this.moveProjectiles(now, dt)
+        this.decals.update(now)
         this.particles = this.particles.filter((p) => now - p.born < p.life)
+    }
+
+    /** A weapon drops in from nowhere, somewhere away from the marine. */
+    private airdrop(now: number): void {
+        const roll = Math.random()
+        const weapon: WeaponId = roll < 0.35 ? 'shotgun' : roll < 0.65 ? 'chaingun' : roll < 0.9 ? 'rocket' : 'chainsaw'
+        const b = this.bounds()
+        let x = b.minX + Math.random() * (b.maxX - b.minX)
+        const y = b.minY + Math.random() * (b.maxY - b.minY)
+        if (Math.abs(x - this.x) < 200) x = x > this.x ? Math.min(b.maxX, x + 220) : Math.max(b.minX, x - 220)
+        this.pickups.spawn(weapon, { x, y }, now)
+        this.fog(x, y, now)
+        this.play('item')
+        this.nextDrop = now + 25000 + Math.random() * 30000
     }
 
     private fog(x: number, y: number, now: number): void {
@@ -570,22 +644,27 @@ class Doomguy implements DoomguyController {
         return best
     }
 
-    private blast(element: ElementEntry, now: number): void {
-        const gone = this.elements.damage(element, now)
-        if (!gone || !this.assets) return
+    /** Hurts a page element. Returns true when that destroyed it. `quiet` skips the per-element explosion (rockets do one big one). */
+    private damageElement(element: ElementEntry, now: number, amount: number, effect: 'boom' | 'quiet' | 'shred' = 'boom'): boolean {
+        const gone = this.elements.damage(element, now, amount)
+        if (!gone || !this.assets) return false
         this.totalBlasts += 1
-        this.play('explode')
-        const sprites = [...'ABCDE'].map((f) => this.assets!.explosion.get(`${f}0`)).filter((s): s is Sprite => !!s)
-        if (sprites.length) this.effects.push({ sprites, x: gone.center.x, y: gone.center.y + 28, start: now, frameMs: 80, scale: 1 })
-        // The letters fly apart, with a few sparks.
-        const letters = [...gone.text.replace(/\s+/g, '')].slice(0, 14)
-        for (const ch of letters) this.particle(gone.center, now, ch, gone.color, 14)
-        for (const color of ['#ffd23c', '#ff7a1a', '#ff7a1a', '#b32017', '#b32017', '#555', '#555', '#ffd23c']) {
-            this.particle(gone.center, now, '', color, 5)
+        this.decals.removeFor(element.el)
+        if (effect === 'boom') {
+            this.play('explode')
+            const sprites = [...'ABCDE'].map((f) => this.assets!.explosion.get(`${f}0`)).filter((s): s is Sprite => !!s)
+            if (sprites.length) this.effects.push({ sprites, x: gone.center.x, y: gone.center.y + 28, start: now, frameMs: 80, scale: 1 })
         }
+        // The letters fly apart, with a few sparks.
+        const letters = [...gone.text.replace(/\s+/g, '')].slice(0, effect === 'quiet' ? 8 : 14)
+        for (const ch of letters) this.particle(gone.center, now, ch, gone.color, 14)
+        const sparks = effect === 'shred' ? ['#ffe27a', '#bbb', '#bbb', '#ffe27a'] : ['#ffd23c', '#ff7a1a', '#ff7a1a', '#b32017', '#b32017', '#555', '#555', '#ffd23c']
+        for (const color of sparks) this.particle(gone.center, now, '', color, 5)
+        return true
     }
 
     private particle(from: Point, now: number, text: string, color: string, size: number): void {
+        if (this.particles.length >= MAX_PARTICLES) return
         const angle = Math.random() * Math.PI * 2
         const speed = 120 + Math.random() * 320
         this.particles.push({
@@ -603,17 +682,92 @@ class Doomguy implements DoomguyController {
         })
     }
 
-    private hitMonster(monster: Monster, now: number): void {
-        const result = this.monsters.hit(monster, now)
+    private mark(kind: DecalKind, at: Point, size: number, owner: HTMLElement | null = null): void {
+        this.decals.add(kind, at, size, performance.now(), host.__xDoomFrames ?? [], owner)
+    }
+
+    private hitMonster(monster: Monster, now: number, damage = 1, gib = false): void {
+        const result = this.monsters.hit(monster, now, damage, gib)
         if (result === 'pain') {
             this.play('pain')
             return
         }
         this.totalKills += 1
-        this.play(SPECS[monster.kind].dies)
+        const spec = SPECS[monster.kind]
+        this.play(spec.dies)
+        // Some of them leave their gun behind.
+        if (spec.drop && Math.random() < spec.drop.chance && this.pickups.canSpawn()) {
+            this.pickups.spawn(spec.drop.weapon, { x: monster.x, y: monster.y }, now)
+        }
     }
 
-    // ---- movement and shooting ----------------------------------------------------------------
+    // ---- weapons ------------------------------------------------------------------------------
+
+    private spec(): WeaponSpec {
+        this.weapon = chooseWeapon(this.weapon, this.ammo)
+        return WEAPONS[this.weapon]
+    }
+
+    private showHud(text: string, now: number): void {
+        this.hudText = text
+        this.hudUntil = now + HUD_MS
+    }
+
+    private pickUp(weapon: WeaponId, now: number): void {
+        const spec = WEAPONS[weapon]
+        this.ammo[weapon] = (this.ammo[weapon] ?? 0) + spec.ammo
+        this.weapon = weapon
+        this.play('wpnup')
+        this.showHud(`${spec.name}  ${this.ammo[weapon]}`, now)
+    }
+
+    /** Spends a round; announces and switches away when the gun runs dry. */
+    private spend(spec: WeaponSpec, now: number): void {
+        if (spec.ammo === Infinity) return
+        const left = (this.ammo[spec.id] ?? 0) - 1
+        this.ammo[spec.id] = Math.max(0, left)
+        if (left <= 0) {
+            const next = chooseWeapon(spec.id, this.ammo)
+            this.weapon = next
+            this.showHud(`${spec.name} EMPTY, ${WEAPONS[next].name}`, now)
+        }
+    }
+
+    /** A rocket (or anything with splash) goes off: the blast takes out every element and monster in range. */
+    private explode(x: number, y: number, now: number): void {
+        const spec = WEAPONS.rocket
+        this.play('boom')
+        const sprites = [...'BCD'].map((f) => this.assets?.rocket.get(`${f}0`)).filter((s): s is Sprite => !!s)
+        if (sprites.length) this.effects.push({ sprites, x, y: y + 36, start: now, frameMs: 110, scale: 2 })
+        this.mark('scorch', { x, y }, spec.splash * 1.1)
+        const center = { x, y }
+        for (const element of this.elements.inRadius(center, spec.splash, now)) {
+            this.damageElement(element, now, spec.elementDamage, 'quiet')
+        }
+        for (const monster of this.monsters.inRadius(center, spec.splash * 1.2)) {
+            const d = Math.hypot(monster.x - x, monster.y - 40 - y)
+            const damage = Math.max(2, Math.round(spec.monsterDamage * (1 - d / (spec.splash * 1.6))))
+            this.hitMonster(monster, now, damage, damage >= 4)
+        }
+        for (let i = 0; i < 10; i += 1) this.particle(center, now, '', i % 2 ? '#ff7a1a' : '#555', 6)
+    }
+
+    private fireRocket(x1: number, y1: number, dx: number, dy: number, reach: number, sector: number): void {
+        this.projectiles.push({ x: x1, y: y1, dx, dy, remaining: reach, sector })
+    }
+
+    private moveProjectiles(now: number, dt: number): void {
+        this.projectiles = this.projectiles.filter((p) => {
+            const step = Math.min(p.remaining, ROCKET_SPEED * dt)
+            p.x += p.dx * step
+            p.y += p.dy * step
+            p.remaining -= step
+            if (p.remaining > 0) return true
+            this.explode(p.x, p.y, now)
+            return false
+        })
+    }
+
 
     private move(dt: number, intent: Intent): boolean {
         const { dx, dy } = intent
@@ -651,45 +805,80 @@ class Doomguy implements DoomguyController {
     }
 
     private shoot(now: number, intent: Intent): void {
+        const spec = this.spec()
         if (!intent.fire || now < this.nextShot || !this.assets) return
-        this.nextShot = now + FIRE_COOLDOWN_MS
+        this.nextShot = now + spec.cooldown
         this.fireStart = now
         this.pendingShots += 1
         this.totalShots += 1
-        this.play('pistol')
+        this.spend(spec, now)
+        this.play(spec.sound)
 
         const facing = (this.sector * Math.PI) / 4
         const x1 = this.x + Math.cos(facing) * 22
         const y1 = this.y - 46 + Math.sin(facing) * 12
-        // Autopilot aims at its target (with a little wobble); the keyboard fires along the facing.
-        const angle = intent.aim ? Math.atan2(intent.aim.y - y1, intent.aim.x - x1) + (Math.random() - 0.5) * 0.05 : facing
-        const dx = Math.cos(angle)
-        const dy = Math.sin(angle)
+        // Autopilot aims at its target; the keyboard fires along the facing.
+        const aim = intent.aim ? Math.atan2(intent.aim.y - y1, intent.aim.x - x1) : facing
 
-        let reach = SHOT_RANGE
-        for (let d = 30; d < SHOT_RANGE; d += 8) {
-            const px = x1 + dx * d
-            const py = y1 + dy * d
-            if (px < 0 || py < 0 || px > host.innerWidth || py > host.innerHeight) {
-                reach = d
-                break
+        for (const angle of pelletAngles(spec, aim)) {
+            const dx = Math.cos(angle)
+            const dy = Math.sin(angle)
+            let reach = spec.range
+            let clipped = false
+            for (let d = 30; d < spec.range; d += 8) {
+                const px = x1 + dx * d
+                const py = y1 + dy * d
+                if (px < 0 || py < 0 || px > host.innerWidth || py > host.innerHeight) {
+                    reach = d
+                    clipped = true
+                    break
+                }
+            }
+            const hit = this.rayHit(x1, y1, dx, dy, reach, now)
+            if (hit) reach = hit.distance
+            const x2 = x1 + dx * reach
+            const y2 = y1 + dy * reach
+
+            if (spec.kind === 'rocket') {
+                this.fireRocket(x1, y1, dx, dy, reach, this.sector)
+                continue
+            }
+            if (spec.kind === 'melee') {
+                if (hit) this.saw(hit, x2, y2, spec, now)
+                continue
+            }
+            // Bullets: a tracer, a puff, damage, and a hole in whatever they hit (or in the page behind).
+            this.tracers.push({ x1, y1, x2, y2, until: now + 60 })
+            this.effects.push({
+                sprites: [...'ABCD'].map((f) => this.assets!.puff.get(`${f}0`)).filter((s): s is Sprite => !!s),
+                x: x2,
+                y: y2 + 8,
+                start: now + 40,
+                frameMs: 70,
+            })
+            const size = spec.id === 'shotgun' ? 4 : 5
+            if (hit?.monster) {
+                this.hitMonster(hit.monster, now + 40, spec.monsterDamage)
+            } else if (hit?.element) {
+                const destroyed = this.damageElement(hit.element, now + 40, spec.elementDamage)
+                if (!destroyed) this.mark('hole', { x: x2, y: y2 }, size, hit.element.el)
+            } else if (!clipped) {
+                this.mark('hole', { x: x2, y: y2 }, size)
             }
         }
-        const hit = this.rayHit(x1, y1, dx, dy, reach, now)
-        if (hit) reach = hit.distance
-        const x2 = x1 + dx * reach
-        const y2 = y1 + dy * reach
-        this.tracers.push({ x1, y1, x2, y2, until: now + 70 })
-        this.effects.push({
-            sprites: [...'ABCD'].map((f) => this.assets!.puff.get(`${f}0`)).filter((s): s is Sprite => !!s),
-            x: x2,
-            y: y2 + 8,
-            start: now + 40,
-            frameMs: 70,
-        })
-        if (hit?.monster) this.hitMonster(hit.monster, now + 40)
-        if (hit?.element) this.blast(hit.element, now + 40)
     }
+
+    /** The chainsaw: sparks and a cut, and whatever it touches is shredded. */
+    private saw(hit: { monster?: Monster; element?: ElementEntry }, x: number, y: number, spec: WeaponSpec, now: number): void {
+        for (let i = 0; i < 3; i += 1) this.particle({ x, y }, now, '', i ? '#ffe27a' : '#ccc', 3)
+        if (hit.monster) {
+            this.hitMonster(hit.monster, now, spec.monsterDamage)
+        } else if (hit.element) {
+            const destroyed = this.damageElement(hit.element, now, spec.elementDamage, 'shred')
+            if (!destroyed) this.mark('cut', { x, y }, 16 + Math.random() * 10, hit.element.el)
+        }
+    }
+
 
     // ---- drawing ------------------------------------------------------------------------------
 
@@ -736,15 +925,16 @@ class Doomguy implements DoomguyController {
 
     private drawFx(now: number): void {
         const canvas = this.fxCanvas!
-        const active =
-            this.effects.length > 0 || this.tracers.length > 0 || this.particles.length > 0 || this.monsters.monsters.length > 0
+        const active = this.hasFx(now)
         if (!active && !this.fxDirty) return
         this.fxDirty = false
         const ctx = canvas.getContext('2d')!
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.imageSmoothingEnabled = false
 
+        this.pickups.draw(ctx, now, this.assets?.pickups ?? {}, SCALE)
         this.monsters.draw(ctx, now, this.assets?.monsters ?? {}, SCALE)
+        this.drawProjectiles(ctx)
 
         this.effects = this.effects.filter((effect) => {
             const index = Math.floor((now - effect.start) / effect.frameMs)
@@ -763,6 +953,7 @@ class Doomguy implements DoomguyController {
         })
 
         this.drawParticles(ctx, now)
+        this.drawHud(ctx, now)
 
         this.tracers = this.tracers.filter((tracer) => {
             if (now > tracer.until) return false
@@ -775,7 +966,50 @@ class Doomguy implements DoomguyController {
             return true
         })
         // Leave one more pass to wipe the final frame, but only if there was something to wipe.
-        this.fxDirty = active && this.effects.length === 0 && this.tracers.length === 0 && this.monsters.monsters.length === 0
+        this.fxDirty = active && !this.hasFx(now)
+    }
+
+    private hasFx(now: number): boolean {
+        return (
+            this.effects.length > 0 ||
+            this.tracers.length > 0 ||
+            this.particles.length > 0 ||
+            this.projectiles.length > 0 ||
+            this.monsters.monsters.length > 0 ||
+            this.pickups.items.length > 0 ||
+            now < this.hudUntil
+        )
+    }
+
+    private drawProjectiles(ctx: CanvasRenderingContext2D): void {
+        for (const p of this.projectiles) {
+            const sprite = this.assets?.rocket.get(`A${ROTATION_BY_SECTOR[p.sector]}`) ?? this.assets?.rocket.get('A1')
+            if (!sprite) continue
+            ctx.drawImage(
+                sprite.image,
+                Math.round(p.x - sprite.left * SCALE),
+                Math.round(p.y - sprite.top * SCALE),
+                sprite.width * SCALE,
+                sprite.height * SCALE
+            )
+        }
+    }
+
+    /** Weapon name and ammo, floating over his head for a moment after a pickup or a switch. */
+    private drawHud(ctx: CanvasRenderingContext2D, now: number): void {
+        if (now >= this.hudUntil || !this.hudText) return
+        ctx.globalAlpha = Math.min(1, (this.hudUntil - now) / 500)
+        ctx.font = 'bold 13px ui-monospace, Menlo, Consolas, monospace'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'alphabetic'
+        const x = this.x
+        const y = this.y - ANCHOR_Y * SCALE - 10
+        ctx.lineWidth = 3
+        ctx.strokeStyle = 'rgba(0,0,0,0.85)'
+        ctx.strokeText(this.hudText, x, y)
+        ctx.fillStyle = '#ffd23c'
+        ctx.fillText(this.hudText, x, y)
+        ctx.globalAlpha = 1
     }
 
     private drawParticles(ctx: CanvasRenderingContext2D, now: number): void {

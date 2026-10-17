@@ -23,14 +23,31 @@ Two modes, remembered per user. Switch with `Ctrl+Alt+M` or the button on **Doom
 **Autopilot (default)**
 
 * He wanders around the screen, walking or running between spots.
-* Every 7 to 15 seconds an imp or zombieman teleports in. He turns, shoots, and it plays its pain and
-  death (or gib) animation. They are harmless and fade away.
+* Every 7 to 15 seconds a monster teleports in: imps, zombiemen, shotgun guys, demons, and now and then a
+  baron of hell. He turns, shoots, and it plays its pain and death (or gib) animation. They are harmless
+  and fade away.
+* **Weapons drop.** Shotgun guys leave their shotgun, the baron a rocket launcher, and every 25 to 55 seconds
+  a weapon is airdropped in. He walks over to grab it (ahead of blasting links), uses it until the ammo runs
+  out, then falls back to the next best gun and finally the pistol.
 * He walks up to **record links** in lists and forms (incident numbers, callers, anything that links to a
   record), stands off about 190 px, and shoots until it explodes into flying letters.
+* Each weapon wrecks the page differently (see the table below).
 * Blasting is **purely visual**. The link is hidden with an inline `visibility` style, nothing is clicked,
   edited or deleted, and it reappears (in a puff of teleport fog) after 30 seconds, when Doomguy is
   dismissed, or on a page reload.
 * Pressing a movement or fire key takes over while it is held.
+
+| Weapon | Where it comes from | What it does to the page |
+|---|---|---|
+| Pistol | always has it | One bullet, one **bullet hole**. A link survives a few hits, then shatters into flying letters |
+| Shotgun | shotgun guys, airdrops | A spread of pellets: a cluster of holes, and it takes a link apart quickly |
+| Chaingun | zombiemen (sometimes), airdrops | Rapid fire: a spray of holes across whatever it is aimed at |
+| Rocket launcher | baron, airdrops | The rocket explodes: **every link in a wide blast radius is blown away at once**, leaving a scorch mark, and monsters nearby are gibbed |
+| Chainsaw | demons (sometimes), airdrops | Melee: he walks right up and **shreds** a link, leaving saw cuts on whatever survives |
+
+Bullet holes, scorch marks and saw cuts are small click-through marks laid over the page. They scroll with
+the content, fade after about 90 seconds, disappear when the link they were on is blasted, and never
+change the page's own elements. The shareware WAD has no plasma rifle or BFG, so there are none here.
 
 **Manual**
 
@@ -113,7 +130,10 @@ the run. Suspect runs are `rejected` (kept for audit, never scored or ranked), o
 | `src/client/` | game page (`doom.ts`), engine wrapper, Doomguy (`doomguy.ts`), WAD reader |
 | `src/client/lib/autopilot.ts` | Doomguy's brain: wander, pick a target, stand off, shoot (pure logic, unit tested) |
 | `src/client/lib/elements.ts` | finds and "blasts" record links across frames, then restores them |
-| `src/client/lib/monsters.ts` | the imps and zombiemen |
+| `src/client/lib/monsters.ts` | the monsters (imp, zombieman, shotgun guy, demon, baron) and what they drop |
+| `src/client/lib/weapons.ts` | the arsenal: damage, spread, blast radius, ammo |
+| `src/client/lib/pickups.ts` | weapons lying on the floor |
+| `src/client/lib/decals.ts` | bullet holes, scorch marks and saw cuts |
 | `src/scripts/ui-script/` | the global UI Script that loads Doomguy |
 | `scripts/` | `fetch-doom-assets.mjs` (engine + WAD), `set-scope.mjs` (retarget the scope) |
 | `x_417611_doom_achievement` rows | add or tune achievements without a deploy (`metric` + `threshold`) |
