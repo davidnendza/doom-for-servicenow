@@ -30,6 +30,8 @@ export interface WeaponSpec {
     /** Blast radius in px for rockets. */
     splash: number
     sound: string
+    /** Play the firing sound at most this often (ms), so a fast gun rattles instead of buzzing. */
+    soundEvery: number
     /** Sprite lump prefix for the pickup on the floor. */
     pickup: string | null
 }
@@ -39,23 +41,23 @@ export const ELEMENT_HP = 4
 export const WEAPONS: Record<WeaponId, WeaponSpec> = {
     pistol: {
         id: 'pistol', name: 'PISTOL', kind: 'bullet', cooldown: 280, pellets: 1, spread: 0.04, range: 520, standOff: 190,
-        ammo: Infinity, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'pistol', pickup: null,
+        ammo: Infinity, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'pistol', soundEvery: 0, pickup: null,
     },
     shotgun: {
         id: 'shotgun', name: 'SHOTGUN', kind: 'bullet', cooldown: 760, pellets: 7, spread: 0.3, range: 400, standOff: 170,
-        ammo: 14, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'shotgun', pickup: 'SHOT',
+        ammo: 14, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'shotgun', soundEvery: 0, pickup: 'SHOT',
     },
     chaingun: {
         id: 'chaingun', name: 'CHAINGUN', kind: 'bullet', cooldown: 105, pellets: 1, spread: 0.09, range: 560, standOff: 230,
-        ammo: 90, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'pistol', pickup: 'MGUN',
+        ammo: 60, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'pistol', soundEvery: 230, pickup: 'MGUN',
     },
     rocket: {
         id: 'rocket', name: 'ROCKET LAUNCHER', kind: 'rocket', cooldown: 950, pellets: 1, spread: 0.01, range: 700, standOff: 320,
-        ammo: 8, monsterDamage: 5, elementDamage: 99, splash: 150, sound: 'rocket', pickup: 'LAUN',
+        ammo: 8, monsterDamage: 5, elementDamage: 99, splash: 150, sound: 'rocket', soundEvery: 0, pickup: 'LAUN',
     },
     chainsaw: {
         id: 'chainsaw', name: 'CHAINSAW', kind: 'melee', cooldown: 90, pellets: 1, spread: 0, range: 78, standOff: 40,
-        ammo: 160, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'sawhit', pickup: 'CSAW',
+        ammo: 70, monsterDamage: 1, elementDamage: 1, splash: 0, sound: 'sawhit', soundEvery: 520, pickup: 'CSAW',
     },
 }
 

@@ -251,6 +251,7 @@ class Doomguy implements DoomguyController {
     private hudText = ''
     private hudUntil = 0
     private nextDrop = 0
+    private lastGunSound = -1e9
 
     private stepFraction = 0
     private pendingSteps = 0
@@ -812,7 +813,10 @@ class Doomguy implements DoomguyController {
         this.pendingShots += 1
         this.totalShots += 1
         this.spend(spec, now)
-        this.play(spec.sound)
+        if (now - this.lastGunSound >= spec.soundEvery) {
+            this.lastGunSound = now
+            this.play(spec.sound)
+        }
 
         const facing = (this.sector * Math.PI) / 4
         const x1 = this.x + Math.cos(facing) * 22
@@ -906,6 +910,7 @@ class Doomguy implements DoomguyController {
         }
 
         if (sprite) ctx.drawImage(sprite.image, ANCHOR_X - sprite.left, ANCHOR_Y - sprite.top)
+        if (sprite && this.phase === 'alive') this.drawHeldWeapon(ctx, now)
 
         // Fade the corpse out before removing it.
         const fade =
@@ -921,6 +926,26 @@ class Doomguy implements DoomguyController {
         root.dataset.sector = String(this.sector)
         root.dataset.frame = this.phase === 'arriving' ? '-' : frame
         root.dataset.rotation = String(ROTATION_BY_SECTOR[this.sector])
+    }
+
+    /**
+     * Doom's own player sprite looks the same whatever he carries (only the first-person view changes), so the
+     * gun he is holding is drawn over his hands, turned to the way he is facing.
+     */
+    private drawHeldWeapon(ctx: CanvasRenderingContext2D, now: number): void {
+        if (this.weapon === 'pistol') return
+        const sprite = this.assets?.pickups[this.weapon]
+        if (!sprite) return
+        const angle = (this.sector * Math.PI) / 4
+        const recoil = now - this.fireStart < FIRE_FLASH_MS ? -3 : 0
+        const reach = 9 + recoil
+        ctx.save()
+        ctx.translate(ANCHOR_X + Math.cos(angle) * reach, ANCHOR_Y - 27 + Math.sin(angle) * reach * 0.6)
+        ctx.rotate(angle)
+        if (Math.cos(angle) < -0.01) ctx.scale(1, -1) // keep the gun the right way up when facing left
+        const scale = 0.62
+        ctx.drawImage(sprite.image, (-sprite.width * scale) / 2 + 8, (-sprite.height * scale) / 2, sprite.width * scale, sprite.height * scale)
+        ctx.restore()
     }
 
     private drawFx(now: number): void {

@@ -45,6 +45,8 @@ Two modes, remembered per user. Switch with `Ctrl+Alt+M` or the button on **Doom
 | Rocket launcher | baron, airdrops | The rocket explodes: **every link in a wide blast radius is blown away at once**, leaving a scorch mark, and monsters nearby are gibbed |
 | Chainsaw | demons (sometimes), airdrops | Melee: he walks right up and **shreds** a link, leaving saw cuts on whatever survives |
 
+Doom's own marine sprite looks the same whatever he carries, so the gun he is holding is drawn over his hands. Fast guns (chaingun, chainsaw) play their sound at a throttled rate, and both run dry after a few seconds.
+
 Bullet holes, scorch marks and saw cuts are small click-through marks laid over the page. They scroll with
 the content, fade after about 90 seconds, disappear when the link they were on is blasted, and never
 change the page's own elements. The shareware WAD has no plasma rifle or BFG, so there are none here.
