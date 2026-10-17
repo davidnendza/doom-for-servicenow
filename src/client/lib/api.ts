@@ -114,8 +114,9 @@ export const finishRun = (runId: string, levels: LevelStat[], clientSeconds: num
     call<FinishResult>('POST', `/runs/${runId}/finish`, { levels, clientSeconds })
 export const abandonRun = (runId: string) => call<void>('POST', `/runs/${runId}/abandon`, {}, true)
 export type DoomguyMode = 'auto' | 'manual'
-export const getDoomguy = () => call<{ enabled: boolean; mode?: DoomguyMode }>('GET', '/doomguy')
+export const getDoomguy = () => call<{ enabled: boolean; mode?: DoomguyMode; sound?: boolean }>('GET', '/doomguy')
 export const setDoomguy = (enabled: boolean) => call<{ enabled: boolean }>('PUT', '/doomguy', { enabled })
 export const setDoomguyMode = (mode: DoomguyMode) => call<{ mode: DoomguyMode }>('PUT', '/doomguy', { mode })
+export const setDoomguySound = (sound: boolean) => call<{ sound: boolean }>('PUT', '/doomguy', { sound })
 export const sendDoomguyTelemetry = (steps: number, shots: number) =>
     call<void>('POST', '/doomguy/telemetry', { steps, shots }, true)

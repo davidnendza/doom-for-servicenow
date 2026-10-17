@@ -5,7 +5,7 @@
 // that load register themselves through attachFrame() so their keystrokes reach the marine.
 // Sprites and sounds are decoded from the shareware WAD the first time the marine is switched on.
 import { gunzipB64 } from './lib/b64'
-import { getDoomguy, sendDoomguyTelemetry, setDoomguy, setDoomguyMode, setTokenProvider, type DoomguyMode } from './lib/api'
+import { getDoomguy, sendDoomguyTelemetry, setDoomguy, setDoomguyMode, setDoomguySound, setTokenProvider, type DoomguyMode } from './lib/api'
 import { Autopilot, type AutoTarget, type Intent, type Point } from './lib/autopilot'
 import { Decals, type DecalKind } from './lib/decals'
 import { ElementTargets, rayBox, type ElementEntry } from './lib/elements'
@@ -15,7 +15,8 @@ import { chooseWeapon, DROPPABLE, pelletAngles, WEAPONS, type WeaponId, type Wea
 import { initSettingsPage } from './lib/settings-page'
 import { decodeSound, loadSpriteSet, Wad, type Sound, type Sprite } from './lib/wad'
 
-const ENTRY_URL = '/uxasset/externals/x_417611_doom/doomguy.jsdbx'
+// Same ten-minute cache bucket as the global UI Script uses, so a deploy shows up within minutes.
+const entryUrl = (): string => `/uxasset/externals/x_417611_doom/doomguy.jsdbx?t=${Math.floor(Date.now() / 600000)}`
 
 const SCALE = 2
 const CELL = 96 // natural pixel size of the marine canvas
@@ -35,6 +36,8 @@ const FIRST_DROP_MS = 9000
 const ROCKET_SPEED = 720
 const MAX_PARTICLES = 420
 const HUD_MS = 2600
+/** Master volume for every sound effect; deliberately quiet. */
+const VOLUME = 0.3
 const GRAVITY = 900
 const DEATH_FRAMES = 'HIJKLMN'
 /** Screen sector (0 = right, then clockwise in 45 degree steps) to the sprite rotation facing that way. */
@@ -97,10 +100,13 @@ interface Tracer {
 export interface DoomguyController {
     readonly enabled: boolean
     readonly mode: DoomguyMode
+    readonly sound: boolean
     setEnabled(value: boolean): Promise<void>
     toggle(): Promise<boolean>
     setMode(mode: DoomguyMode): void
     toggleMode(): DoomguyMode
+    setSound(on: boolean): void
+    toggleSound(): boolean
     attachFrame(win: Window): void
     onChange(listener: (enabled: boolean) => void): () => void
     stats(): { steps: number; shots: number; kills: number; blasts: number }
@@ -235,6 +241,7 @@ class Doomguy implements DoomguyController {
 
     /** auto: he roams, fights and blasts things himself; manual: only the keyboard moves him. */
     mode: DoomguyMode = 'auto'
+    sound = true
     private readonly autopilot = new Autopilot()
     private readonly elements = new ElementTargets(host)
     private readonly monsters = new Monsters()
@@ -285,6 +292,7 @@ class Doomguy implements DoomguyController {
         getDoomguy()
             .then(async (pref) => {
                 if (pref.mode === 'auto' || pref.mode === 'manual') this.mode = pref.mode
+                if (pref.sound === false) this.sound = false
                 if (pref.enabled) await this.setEnabled(true, false)
             })
             .catch(() => undefined)
@@ -317,6 +325,20 @@ class Doomguy implements DoomguyController {
     toggleMode(): DoomguyMode {
         this.setMode(this.mode === 'auto' ? 'manual' : 'auto')
         return this.mode
+    }
+
+    setSound(on: boolean, persist = true): void {
+        if (on === this.sound) return
+        this.sound = on
+        for (const listener of this.listeners) listener(this.enabled)
+        if (persist) setDoomguySound(on).catch(() => undefined)
+        this.toast(on ? 'DOOMGUY SOUND: ON  (Ctrl+Alt+S to mute)' : 'DOOMGUY SOUND: OFF  (Ctrl+Alt+S to unmute)')
+        this.play('pistol') // a click to confirm it is back on (silent when switching off)
+    }
+
+    toggleSound(): boolean {
+        this.setSound(!this.sound)
+        return this.sound
     }
 
     toggle(): Promise<boolean> {
@@ -470,6 +492,12 @@ class Doomguy implements DoomguyController {
             event.preventDefault()
             event.stopPropagation()
             if (!event.repeat) this.toggleMode()
+            return
+        }
+        if (event.ctrlKey && event.altKey && event.code === 'KeyS') {
+            event.preventDefault()
+            event.stopPropagation()
+            if (!event.repeat) this.toggleSound()
             return
         }
         if (this.phase !== 'alive' && this.phase !== 'arriving') return
@@ -1079,6 +1107,7 @@ class Doomguy implements DoomguyController {
     }
 
     private play(name: string): void {
+        if (!this.sound) return
         this.resumeAudio()
         const ctx = this.audio
         const sound = this.assets?.sounds[name]
@@ -1091,7 +1120,7 @@ class Doomguy implements DoomguyController {
         }
         const source = ctx.createBufferSource()
         const gain = ctx.createGain()
-        gain.gain.value = 0.5
+        gain.gain.value = VOLUME
         source.buffer = buffer
         source.connect(gain).connect(ctx.destination)
         source.start()
@@ -1150,7 +1179,7 @@ export async function getController(): Promise<DoomguyController> {
         host.__xDoomLoading = true
         const script = host.document.createElement('script')
         script.type = 'module'
-        script.src = ENTRY_URL
+        script.src = entryUrl()
         host.document.head.appendChild(script)
     }
     for (let i = 0; i < 100; i += 1) {

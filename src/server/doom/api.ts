@@ -2,7 +2,7 @@ import { GlideDateTime, GlideRecord, gs } from '@servicenow/glide'
 import { ServiceError } from '@servicenow/glide/sn_ws_err'
 import type { RESTAPIRequest, RESTAPIResponse } from '@servicenow/glide/sn_ws_int'
 import { evaluateAchievements, listAchievements } from './achievements.ts'
-import { doomguyEnabled, doomguyMode, ensurePlayer, int, modePrefName, prefName, toProfile } from './players.ts'
+import { doomguyEnabled, doomguyMode, doomguySound, ensurePlayer, int, modePrefName, prefName, soundPrefName, toProfile } from './players.ts'
 import { SKILLS, scoreLevel, validateLevels } from './scoring.ts'
 
 type Json = Record<string, unknown>
@@ -226,7 +226,7 @@ export function abandonRun(request: RESTAPIRequest, response: RESTAPIResponse): 
 // ---- doomguy ---------------------------------------------------------------------------------
 
 export function getDoomguy(request: RESTAPIRequest, response: RESTAPIResponse): void {
-    guarded(request, response, () => ok(response, { enabled: doomguyEnabled(), mode: doomguyMode() }))
+    guarded(request, response, () => ok(response, { enabled: doomguyEnabled(), mode: doomguyMode(), sound: doomguySound() }))
 }
 
 export function putDoomguy(request: RESTAPIRequest, response: RESTAPIResponse): void {
@@ -235,7 +235,8 @@ export function putDoomguy(request: RESTAPIRequest, response: RESTAPIResponse): 
         // Each field is optional so the on/off switch and the mode can be changed independently.
         if (typeof body['enabled'] === 'boolean') gs.getUser().savePreference(prefName, body['enabled'] ? 'true' : 'false')
         if (body['mode'] === 'auto' || body['mode'] === 'manual') gs.getUser().savePreference(modePrefName, body['mode'])
-        ok(response, { enabled: doomguyEnabled(), mode: doomguyMode() })
+        if (typeof body['sound'] === 'boolean') gs.getUser().savePreference(soundPrefName, body['sound'] ? 'true' : 'false')
+        ok(response, { enabled: doomguyEnabled(), mode: doomguyMode(), sound: doomguySound() })
     })
 }
 

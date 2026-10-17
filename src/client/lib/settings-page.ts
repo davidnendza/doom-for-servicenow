@@ -15,6 +15,7 @@ export async function initSettingsPage(
     const stats = root.querySelector<HTMLElement>('#dg-stats')!
     const modeButton = root.querySelector<HTMLButtonElement>('#dg-mode')!
     const modeNote = root.querySelector<HTMLElement>('#dg-mode-note')!
+    const soundButton = root.querySelector<HTMLButtonElement>('#dg-sound')!
     const error = root.querySelector<HTMLElement>('#dg-error')!
 
     let controller: DoomguyController
@@ -35,6 +36,7 @@ export async function initSettingsPage(
         stats.textContent =
             `${steps.toLocaleString()} steps, ${shots.toLocaleString()} shots, ` +
             `${kills.toLocaleString()} demons slain, ${blasts.toLocaleString()} things blasted this session`
+        soundButton.textContent = controller.sound ? 'MUTE SOUND' : 'UNMUTE SOUND'
         const auto = controller.mode === 'auto'
         modeButton.textContent = auto ? 'SWITCH TO MANUAL CONTROL' : 'SWITCH TO AUTOPILOT'
         modeNote.textContent = auto
@@ -48,6 +50,10 @@ export async function initSettingsPage(
     })
     modeButton.addEventListener('click', () => {
         controller.toggleMode()
+        render()
+    })
+    soundButton.addEventListener('click', () => {
+        controller.toggleSound()
         render()
     })
     controller.onChange(render)

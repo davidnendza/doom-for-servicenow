@@ -43,6 +43,13 @@ export function doomguyEnabled(): boolean {
     return (gs.getUser().getPreference(prefName) || fallback) === 'true'
 }
 
+export const soundPrefName = 'x_417611_doom.doomguy.sound'
+
+/** Doomguy's sound effects are on unless the user has switched them off. */
+export function doomguySound(): boolean {
+    return gs.getUser().getPreference(soundPrefName) !== 'false'
+}
+
 export const modePrefName = 'x_417611_doom.doomguy.mode'
 export type DoomguyMode = 'auto' | 'manual'
 

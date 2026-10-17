@@ -275,6 +275,17 @@ describe('doomguy', () => {
         assert.equal(result(call('GET', '/doomguy')).mode, 'manual')
     })
 
+    it('stores the sound on/off choice per user, on by default', () => {
+        assert.equal(result(call('GET', '/doomguy')).sound, true)
+        result(call('PUT', '/doomguy', { body: { sound: false } }))
+        const after = result(call('GET', '/doomguy'))
+        assert.equal(after.sound, false)
+        assert.equal(after.mode, 'auto') // untouched
+        assert.equal(result(call('GET', '/doomguy', { user: 'isabella' })).sound, true)
+        result(call('PUT', '/doomguy', { body: { sound: true } }))
+        assert.equal(result(call('GET', '/doomguy')).sound, true)
+    })
+
     it('uses the system property as the default for users who never chose', () => {
         db.properties.set('x_417611_doom.doomguy.default_enabled', 'true')
         assert.equal(result(call('GET', '/doomguy', { user: 'isabella' })).enabled, true)

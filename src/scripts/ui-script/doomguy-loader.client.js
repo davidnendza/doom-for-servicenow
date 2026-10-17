@@ -23,6 +23,8 @@
 
     var script = host.document.createElement('script');
     script.type = 'module';
-    script.src = '/uxasset/externals/x_417611_doom/doomguy.jsdbx';
+    // The asset is served with cache-control: public and no validator, so browsers keep an old copy after a
+    // deploy. A ten-minute bucket in the query string bounds how stale it can get without refetching constantly.
+    script.src = '/uxasset/externals/x_417611_doom/doomguy.jsdbx?t=' + Math.floor(Date.now() / 600000);
     (host.document.head || host.document.documentElement).appendChild(script);
 })();

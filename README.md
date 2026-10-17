@@ -18,7 +18,9 @@ Shareware DOOM running in a ServiceNow UI Page, with the game backed by real pla
 
 ## Doomguy
 
-Two modes, remembered per user. Switch with `Ctrl+Alt+M` or the button on **Doom > Doomguy**.
+Two modes, remembered per user. Switch with `Ctrl+Alt+M` or the button on **Doom > Doomguy**. His sound effects
+(played quietly, at 30% volume) can be muted with `Ctrl+Alt+S` or the **Mute sound** button; that is remembered
+per user too. This only affects Doomguy, not the game itself.
 
 **Autopilot (default)**
 
@@ -151,6 +153,8 @@ Things that only showed up on a real instance, and are handled here:
 * **Server module imports need the `.ts` extension** (`import ... from './players.ts'`). The platform
   resolves modules by exact path, so extension-less relative imports fail at run time.
 * **Scoped API limits:** `gs.getPreference` is not allowed in a scope (use `gs.getUser().getPreference`).
+* **UI assets are cached by the browser** (`cache-control: public`, no validator), so after a deploy the old
+  Doomguy script can linger. The loader adds a ten-minute cache bucket to the asset URL to bound that.
 * **Scripted REST wraps the body in `{ result: ... }` itself**, so handlers pass the bare value.
 * **The auto-number default must be `javascript:global.getNextObjNumberPadded();`**, and the record created
   with `newRecord()` rather than `initialize()`, or the number column stays empty.
