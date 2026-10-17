@@ -145,6 +145,6 @@ Things that only showed up on a real instance, and are handled here:
 
 ## Licences
 
-The engine is GPL-2.0-or-later (Chocolate Doom, via Cloudflare's doom-wasm). `DOOM1.WAD` is id Software's
+The code in this repository is licensed under the **GNU General Public License, version 2 or (at your option) any later version** (see [LICENSE](LICENSE)). That matches the engine it bundles, which is GPL-2.0-or-later (Chocolate Doom, via Cloudflare's doom-wasm). `DOOM1.WAD` is id Software's
 shareware release, freely redistributable unmodified; this project reads it but never alters it, and the
 sprites and sounds are decoded in the browser, not copied out of it.
