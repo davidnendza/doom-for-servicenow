@@ -1,0 +1,7 @@
+src/client/generated/
+src/fluent/generated/
+vendor/
+dist/
+target/
+node_modules/
+*.html

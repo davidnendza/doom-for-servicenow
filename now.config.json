@@ -1,0 +1,7 @@
+{
+    "scope": "x_doom",
+    "scopeId": "1b59d76d51c24aa1bcc2ed07e2d6189a",
+    "name": "Doom",
+    "tsconfigPath": "./src/server/tsconfig.json",
+    "description": "Shareware DOOM in the browser, with runs, scores, achievements and a leaderboard stored in ServiceNow tables, plus a Doomguy that roams the platform UI."
+}

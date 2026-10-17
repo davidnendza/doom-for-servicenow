@@ -1,0 +1,11 @@
+.DS_Store
+.now/
+dist/
+node_modules/
+target/
+*.tsbuildinfo
+.jest_cache
+vendor/
+src/client/generated/
+dev-screenshots/
+*.bundle
