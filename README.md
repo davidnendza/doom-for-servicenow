@@ -70,7 +70,7 @@ Each [GitHub release](https://github.com/davidnendza/doom-for-servicenow/release
 1. Download the `.update-set.xml` file from the release.
 2. On your instance go to **System Update Sets > Retrieved Update Sets**, click **Import Update Set from XML**,
    choose the file and **Upload** (it is about 25 MB).
-3. Open the new update set (**Doom 0.1.0**), click **Preview Update Set**, and when the preview finishes with no
+3. Open the new update set (**Doom**, version 0.1.0), click **Preview Update Set**, and when the preview finishes with no
    problems click **Commit Update Set**.
 4. Open **Doom > Play Doom** in the navigator.
 

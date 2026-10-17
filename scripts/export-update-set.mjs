@@ -73,7 +73,7 @@ const field = (xml, name) => {
 }
 const appId = field(setXml, 'application')
 const description = field(setXml, 'description')
-const setName = `${appName} ${version}`
+const setName = appName // the instance names the retrieved set after the app whatever this says
 
 // 2. Every record in it.
 const rowsXml = await get(`sys_update_xml_list.do?XML&sysparm_query=${encodeURIComponent(`update_set=${setId}`)}&sysparm_record_count=5000`, 'application/xml')
