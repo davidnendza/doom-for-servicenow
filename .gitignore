@@ -9,3 +9,4 @@ vendor/
 src/client/generated/
 dev-screenshots/
 *.bundle
+release/

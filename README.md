@@ -62,6 +62,22 @@ He stays out of text fields. Steps and shots feed the achievements (*Marathon Ma
 He lives in the top window, so he survives navigating between pages. Pure Next Experience pages
 (such as Workspace) do not load global UI Scripts, so he does not appear there.
 
+## Install without the Now SDK
+
+Each [GitHub release](https://github.com/davidnendza/doom-for-servicenow/releases) carries the whole app as a single
+**update set** (`x_417611_doom-<version>.update-set.xml`), so you do not need Node or the Now SDK:
+
+1. Download the `.update-set.xml` file from the release.
+2. On your instance go to **System Update Sets > Retrieved Update Sets**, click **Import Update Set from XML**,
+   choose the file and **Upload** (it is about 25 MB).
+3. Open the new update set (**Doom 0.1.0**), click **Preview Update Set**, and when the preview finishes with no
+   problems click **Commit Update Set**.
+4. Open **Doom > Play Doom** in the navigator.
+
+The app installs under the scope `x_417611_doom` (the prefix of the PDI it was built on). The update set already
+contains the game engine, the shareware WAD and the cross-scope privileges it needs. If you would rather have your
+own instance's prefix, build from source with `scripts/set-scope.mjs` (see below).
+
 ## Build and deploy
 
 ```bash
@@ -98,6 +114,24 @@ Then rewrite every table, role, property, route and page name in one go (add `--
 ```bash
 node scripts/set-scope.mjs x_123456_doom
 ```
+
+### Cutting a release
+
+```bash
+npm test && npm run build
+npx now-sdk install --auth <alias>       # install exactly what will be released
+```
+
+Then on that instance open the app (System Applications > Studio, or `sys_app.list`) and use the related link
+**Publish to Update Set...**, which packs every application file into a completed update set. Finally:
+
+```bash
+node scripts/export-update-set.mjs --auth <alias>     # writes release/<scope>-<version>.update-set.xml
+gh release create v<version> release/<scope>-<version>.update-set.xml --title "..." --notes "..."
+```
+
+`export-update-set.mjs` downloads that update set's records with the credential `now-sdk auth` already holds and
+re-labels them as an importable (retrieved) update set. The `release/` folder is git-ignored.
 
 ## Develop and test without an instance
 
@@ -139,7 +173,7 @@ the run. Suspect runs are `rejected` (kept for audit, never scored or ranked), o
 | `src/client/lib/pickups.ts` | weapons lying on the floor |
 | `src/client/lib/decals.ts` | bullet holes, scorch marks and saw cuts |
 | `src/scripts/ui-script/` | the global UI Script that loads Doomguy |
-| `scripts/` | `fetch-doom-assets.mjs` (engine + WAD), `set-scope.mjs` (retarget the scope) |
+| `scripts/` | `fetch-doom-assets.mjs` (engine + WAD), `set-scope.mjs` (retarget the scope), `export-update-set.mjs` (build the release update set) |
 | `x_417611_doom_achievement` rows | add or tune achievements without a deploy (`metric` + `threshold`) |
 
 ## Platform gotchas
