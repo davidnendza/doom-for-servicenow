@@ -16,6 +16,23 @@ Shareware DOOM running in a ServiceNow UI Page, with the game backed by real pla
 * **Doomguy**: the real marine sprites and sounds, decoded from the WAD at runtime. `Ctrl+Alt+D`
   summons or dismisses him from any page. See below.
 
+## Recent updates
+
+**v0.1.0 (2026-10-16)**: first release. [Download the update set](https://github.com/davidnendza/doom-for-servicenow/releases/tag/v0.1.0)
+and install without the Now SDK (see [Install without the Now SDK](#install-without-the-now-sdk)).
+
+* **Runs on a real instance.** First deploy to a live ServiceNow instance, plus the fixes that needed
+  (scope prefix, REST auth token, module imports, scoped API limits, response format, run numbers). See
+  [Platform gotchas](#platform-gotchas).
+* **Autopilot Doomguy.** He wanders, fights harmless monsters, walks up to record links and blasts them (visual
+  only, they come back). `Ctrl+Alt+M` switches to manual control.
+* **Weapons and drops.** Shotgun, chaingun, rocket launcher and chainsaw, dropped by monsters or airdropped, each
+  wrecking the page differently: bullet holes, a blast radius that wipes out whole columns of links, saw cuts.
+  New monsters: shotgun guy, demon and baron.
+* **Sound control.** Quieter effects (30% volume) and a mute toggle (`Ctrl+Alt+S`).
+* **Easier to adopt.** An update set install, `scripts/set-scope.mjs` to use your own instance's prefix, a
+  licence (GPL-2.0-or-later) and this README.
+
 ## Doomguy
 
 Two modes, remembered per user. Switch with `Ctrl+Alt+M` or the button on **Doom > Doomguy**. His sound effects
